@@ -17,19 +17,24 @@ public class NodoABB<T>{
 
     public NodoABB<T> getPadre() {
         return padre;
-    }
+    } 
     
-    public void NodoABB(){
+    public  NodoABB(){
         this.dato=null;
         this.nodoD=null;
         this.nodoR=null;        
     }
-    public void NodoABB(T dato){
+    public  NodoABB(T dato){
         this.dato=dato;
         this.nodoD=null;
         this.nodoR=null; 
     }
-    public void NodoABB(T dato,NodoABB<T> padre){
+    public  NodoABB(T dato,NodoABB r,NodoABB d){
+        this.dato=dato;
+        this.nodoD=d;
+        this.nodoR=r; 
+    }
+    public  NodoABB(T dato,NodoABB<T> padre){
         this.dato=dato;
         this.nodoD=null;
         this.nodoR=null; 
@@ -47,5 +52,21 @@ public class NodoABB<T>{
     public void setPadre(NodoABB<T> padre) {
         this.padre = padre;
     }
+    public void setDato(T dato) {
+        this.dato = dato;
+    }
+
+    public T getDato() {
+        return dato;
+    }
+
+    public NodoABB<T> getNodoD() {
+        return nodoD;
+    }
+
+    public NodoABB<T> getNodoR() {
+        return nodoR;
+    }
     
+        
 }
