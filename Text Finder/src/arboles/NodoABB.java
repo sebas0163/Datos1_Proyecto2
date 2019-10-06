@@ -11,8 +11,13 @@ package arboles;
  */
 public class NodoABB<T>{
     private T dato;
-    private T nodoD;
-    private T nodoR;
+    private NodoABB<T> nodoD;
+    private NodoABB<T> nodoR;
+    private NodoABB<T> padre;
+
+    public NodoABB<T> getPadre() {
+        return padre;
+    }
     
     public void NodoABB(){
         this.dato=null;
@@ -22,7 +27,25 @@ public class NodoABB<T>{
     public void NodoABB(T dato){
         this.dato=dato;
         this.nodoD=null;
-        this.nodoR=null;        
+        this.nodoR=null; 
+    }
+    public void NodoABB(T dato,NodoABB<T> padre){
+        this.dato=dato;
+        this.nodoD=null;
+        this.nodoR=null; 
+        this.padre=padre;
+    }
+
+    public void setNodoD(NodoABB<T> nodoD) {
+        this.nodoD = nodoD;
+    }
+
+    public void setNodoR(NodoABB<T> nodoR) {
+        this.nodoR = nodoR;
+    }
+
+    public void setPadre(NodoABB<T> padre) {
+        this.padre = padre;
     }
     
 }
