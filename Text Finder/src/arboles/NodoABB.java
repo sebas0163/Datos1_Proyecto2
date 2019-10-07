@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package arboles;
-
+import palabras.Palabra;
 /**
  *
  * @author Erick
@@ -15,10 +15,6 @@ public class NodoABB<T>{
     private NodoABB<T> nodoR;
     private NodoABB<T> padre;
 
-    public NodoABB<T> getPadre() {
-        return padre;
-    } 
-    
     public  NodoABB(){
         this.dato=null;
         this.nodoD=null;
@@ -40,7 +36,9 @@ public class NodoABB<T>{
         this.nodoR=null; 
         this.padre=padre;
     }
-
+    public NodoABB<T> getPadre() {
+        return padre;
+    }
     public void setNodoD(NodoABB<T> nodoD) {
         this.nodoD = nodoD;
     }
