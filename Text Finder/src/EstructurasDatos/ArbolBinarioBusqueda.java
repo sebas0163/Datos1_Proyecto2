@@ -23,6 +23,7 @@ public class ArbolBinarioBusqueda<T> {
         NodoABB<Palabra> aux=raiz;
         while (true){            
             if (palabra.getValor()== aux.getDato().getValor()){
+                aux.getDato().addapariciones();
                 return;
             }
             if (palabra.getValor()> aux.getDato().getValor()) {
@@ -42,7 +43,22 @@ public class ArbolBinarioBusqueda<T> {
                 aux=aux.getNodoI();
                 continue;
             }
+        }            
         }
-            
+    public Palabra buscar(String dato){
+        Palabra palabra=new Palabra(dato);
+        NodoABB<Palabra> aux=raiz;
+        while(aux!=null){
+            if(aux.getDato().getPalabra()==palabra.getPalabra()){
+                return aux.getDato();
+            }
+            if(palabra.getValor()<aux.getDato().getValor()){
+                aux=aux.getNodoI();
+            }
+            if(palabra.getValor()>aux.getDato().getValor()){
+                aux=aux.getNodoD();
+            }
         }
+        return null;
+    }
 }

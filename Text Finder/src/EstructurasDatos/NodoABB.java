@@ -10,6 +10,7 @@ public class NodoABB<T>{
     private NodoABB<T> nodoD;
     private NodoABB<T> nodoR;
     private NodoABB<T> padre;
+   
 
     public  NodoABB(){
         this.dato=null;
@@ -20,6 +21,7 @@ public class NodoABB<T>{
         this.dato=dato;
         this.nodoD=null;
         this.nodoR=null; 
+        
     }
     public  NodoABB(T dato,NodoABB r,NodoABB d){
         this.dato=dato;
@@ -61,6 +63,6 @@ public class NodoABB<T>{
     public NodoABB<T> getNodoI() {
         return nodoR;
     }
-    
-        
+      
+      
 }
