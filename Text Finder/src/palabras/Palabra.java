@@ -5,6 +5,7 @@
  */
 package palabras;
 
+import EstructurasDatos.DoubleEndedLinkedList;
 import text.finder.*;
 
 /**
@@ -16,11 +17,18 @@ public class Palabra {
     private int valor;
     private OperPalabras oprPlbr;
     private int apariciones;
+    private DoubleEndedLinkedList ubicaciones;
     
     public Palabra(String palabra){
         this.palabra=palabra;
         this.valor=oprPlbr.strToInt(palabra);
         this.apariciones=apariciones;
+    }
+    public Palabra(String palabra,String url){
+        this.palabra=palabra;
+        this.valor=oprPlbr.strToInt(palabra);
+        this.apariciones=apariciones;
+        ubicaciones.add(url);
     }
 
     public String getPalabra() {
