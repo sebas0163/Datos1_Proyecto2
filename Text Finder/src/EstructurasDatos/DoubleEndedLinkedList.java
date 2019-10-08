@@ -1,5 +1,5 @@
 
-package listas;
+package EstructurasDatos;
 
 /**
  * Clase para crear una lista enlazada 
