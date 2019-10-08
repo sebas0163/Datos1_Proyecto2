@@ -15,9 +15,12 @@ public class Palabra {
     private String palabra;
     private int valor;
     private OperPalabras oprPlbr;
+    private int apariciones;
+    
     public Palabra(String palabra){
         this.palabra=palabra;
         this.valor=oprPlbr.strToInt(palabra);
+        this.apariciones=apariciones;
     }
 
     public String getPalabra() {
@@ -27,6 +30,8 @@ public class Palabra {
     public int getValor() {
         return valor;
     }
-    
+    public void addapariciones(){
+        this.apariciones++;
+    } 
     
 }
