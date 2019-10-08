@@ -45,6 +45,38 @@ public class ArbolBinarioBusqueda<T> {
             }
         }            
         }
+    public void agregar(String dato,String url){
+        Palabra palabra=new Palabra(dato,url);
+        
+        if (esVacio()) {            
+            NodoABB nuevo = new NodoABB(palabra);
+            raiz = nuevo;
+        }
+        NodoABB<Palabra> aux=raiz;
+        while (true){            
+            if (palabra.getValor()== aux.getDato().getValor()){
+                aux.getDato().addapariciones();
+                return;
+            }
+            if (palabra.getValor()> aux.getDato().getValor()) {
+                if(aux.getNodoD()==null){
+                    aux.getNodoD().setDato(palabra);
+                    aux.getNodoD().setPadre(aux);
+                    return;
+                }
+                aux=aux.getNodoD();
+                continue;
+            }
+            if (palabra.getValor() < aux.getDato().getValor()){
+                if(aux.getNodoI()==null){
+                   aux.getNodoI().setDato(palabra);
+                   aux.getNodoI().setPadre(aux); 
+                }
+                aux=aux.getNodoI();
+                continue;
+            }
+        }            
+        }
     public Palabra buscar(String dato){
         Palabra palabra=new Palabra(dato);
         NodoABB<Palabra> aux=raiz;
