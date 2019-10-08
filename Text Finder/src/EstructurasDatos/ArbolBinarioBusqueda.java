@@ -1,4 +1,4 @@
-package arboles;
+package EstructurasDatos;
 import palabras.Palabra;
 /**
  *

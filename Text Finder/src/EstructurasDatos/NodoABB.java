@@ -1,15 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-<<<<<<< HEAD:Text Finder/src/arboles/NodoABB.java
-package arboles;
-import palabras.Palabra;
-=======
 package EstructurasDatos;
+import palabras.Palabra;
 
->>>>>>> master:Text Finder/src/EstructurasDatos/NodoABB.java
 /**
  *
  * @author Erick
@@ -67,7 +58,7 @@ public class NodoABB<T>{
         return nodoD;
     }
 
-    public NodoABB<T> getNodoR() {
+    public NodoABB<T> getNodoI() {
         return nodoR;
     }
     

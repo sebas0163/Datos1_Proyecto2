@@ -5,8 +5,6 @@
  */
 package palabras;
 
-import arboles.*;
-
 /**
  *
  * @author Erick
