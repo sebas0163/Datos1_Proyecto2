@@ -8,7 +8,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="790.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="text.finder.FXMLDocumentController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="790.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="text.finder.Controller">
    <children>
       <SplitPane dividerPositions="0.1687211093990755" prefHeight="790.0" prefWidth="1300.0">
         <items>
@@ -19,13 +19,13 @@
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: #def5d7;">
                            <children>
-                              <TextField layoutX="24.0" layoutY="18.0" prefHeight="26.0" prefWidth="704.0" promptText="Buscar palabra" />
-                              <Button layoutX="752.0" layoutY="18.0" mnemonicParsing="false" text="Buscar" />
+                              <TextField fx:id="txtIn" layoutX="24.0" layoutY="18.0" prefHeight="26.0" prefWidth="704.0" promptText="Buscar palabra" />
+                              <Button fx:id="btnBuscar" layoutX="752.0" layoutY="18.0" mnemonicParsing="false" onAction="#buscar" text="Buscar" />
                               <MenuButton layoutX="842.0" layoutY="18.0" mnemonicParsing="false" text="Ordenar">
                                 <items>
-                                  <MenuItem mnemonicParsing="false" text="Fecha" />
-                                  <MenuItem mnemonicParsing="false" text="Nombre" />
-                                  <MenuItem mnemonicParsing="false" text="Tamaño" />
+                                  <MenuItem mnemonicParsing="false" onAction="#ordenarFecha" text="Fecha" />
+                                  <MenuItem mnemonicParsing="false" onAction="#ordenarNombre" text="Nombre" />
+                                  <MenuItem mnemonicParsing="false" onAction="#ordenarTamaño" text="Tamaño" />
                                 </items>
                               </MenuButton>
                            </children>
