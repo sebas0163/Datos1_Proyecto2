@@ -10,9 +10,11 @@ public class ArbolBinarioBusqueda<T> {
     public void ArbolBinarioBusqueda(){
         this.raiz=null;
     }
+
     public boolean esVacio(){
         return(raiz==null);
     }
+
     public void agregar(String dato){
         Palabra palabra=new Palabra(dato);
         
@@ -44,7 +46,8 @@ public class ArbolBinarioBusqueda<T> {
                 continue;
             }
         }            
-        }
+    }
+
     public Palabra buscar(String dato){
         Palabra palabra=new Palabra(dato);
         NodoABB<Palabra> aux=raiz;
