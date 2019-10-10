@@ -21,7 +21,7 @@ public class Palabra {
         this.palabra=palabra;
         this.valor= strToInt(palabra);
         this.apariciones=apariciones;
-        ubicaciones.add(url);
+        
     }
 
     public String getPalabra() {
