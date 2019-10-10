@@ -15,13 +15,12 @@ import text.finder.*;
 public class Palabra {
     private String palabra;
     private int valor;
-    private OperPalabras oprPlbr;
     private int apariciones;
     private DoubleEndedLinkedList ubicaciones;
     
     public Palabra(String palabra){
         this.palabra=palabra;
-        this.valor=oprPlbr.strToInt(palabra);
+        this.valor= strToInt(palabra);
         this.apariciones=apariciones;
     }
     public Palabra(String palabra,String url){
@@ -40,6 +39,16 @@ public class Palabra {
     }
     public void addapariciones(){
         this.apariciones++;
-    } 
-    
+    }
+    public int strToInt(String a){
+        a=a.toUpperCase();
+        String palabra="";
+        int len=a.length();
+        //len--;
+        for (int i=0;i<len;i++){
+            palabra+=Integer.toString(a.codePointAt(i));
+        }
+        return Integer.parseInt(palabra);
+    }
+
 }
