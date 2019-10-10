@@ -16,16 +16,10 @@ public class Palabra {
     private String palabra;
     private int valor;
     private int apariciones;
-    private DoubleEndedLinkedList ubicaciones;
-    
+
     public Palabra(String palabra){
         this.palabra=palabra;
         this.valor= strToInt(palabra);
-        this.apariciones=apariciones;
-    }
-    public Palabra(String palabra,String url){
-        this.palabra=palabra;
-        this.valor=oprPlbr.strToInt(palabra);
         this.apariciones=apariciones;
         ubicaciones.add(url);
     }
