@@ -45,9 +45,9 @@ public class ArbolBinarioBusqueda<T> {
                 aux=aux.getNodoI();
                 continue;
             }
-        }            
-<<<<<<< HEAD
         }
+    }            
+
     public void agregar(String dato,String url){
         Palabra palabra=new Palabra(dato,url);
         
@@ -78,12 +78,12 @@ public class ArbolBinarioBusqueda<T> {
                 aux=aux.getNodoI();
                 continue;
             }
-        }            
-        }
-=======
+        }          
+        
+
     }
 
->>>>>>> master
+
     public Palabra buscar(String dato){
         Palabra palabra=new Palabra(dato);
         NodoABB<Palabra> aux=raiz;
