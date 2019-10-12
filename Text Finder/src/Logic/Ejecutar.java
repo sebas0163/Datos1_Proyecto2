@@ -8,13 +8,15 @@ import palabras.Palabra;
  * @author Sebastian Moya
  */
 public class Ejecutar {
-    private ArbolBinarioBusqueda<Integer> arbolPrincpal;
+    private ManejoArchivos manejoArchivos;
+    private Biblioteca biblioteca;
 
     /**
      * Metodo constructor de la clase.
      */
     public Ejecutar(){
-        this.arbolPrincpal = new ArbolBinarioBusqueda<>();
+        this.manejoArchivos = new ManejoArchivos();
+        this.biblioteca = new Biblioteca();
     }
 
     /**
@@ -22,7 +24,10 @@ public class Ejecutar {
      * @param palabra
      */
     public void buscarPalabra(String palabra){
-         Palabra palabraAux = arbolPrincpal.buscar(palabra);
-         System.out.println(arbolPrincpal.buscar(palabra));
+
+    }
+    public void addDocumento(String url,String nombre){
+        Documentos doc = manejoArchivos.indizarDoc(url, nombre);
+        biblioteca.agregarDocumento(doc);
     }
 }

@@ -221,11 +221,30 @@ public class DoubleEndedLinkedList<T>{
         }
         aux.setNext(aux.getNext().getNext());
     }
+
+    public int buscarPos(T dato){
+        Nodo temp = this.head;
+        int i = 0;
+        while(temp != null){
+            if (temp.getDato() == dato){
+                break;
+            }
+            else{
+                temp = temp.getNext();
+                i ++;
+            }
+        }
+        return i;
+    }
     /**
      * Metodo para obterner el nodo en la ultima posicion     * 
      * @return Nodo en el tile de la lista
      */
     public Nodo<T> getLast(){
         return this.tile;
+    }
+
+    public Nodo<T> getHead() {
+        return head;
     }
 }
