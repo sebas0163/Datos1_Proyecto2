@@ -1,6 +1,10 @@
 package Logic;
 
+import EstructurasDatos.ArbolBinarioBusqueda;
 import EstructurasDatos.DoubleEndedLinkedList;
+import EstructurasDatos.Nodo;
+import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 import java.io.*;
 import java.util.StringTokenizer;
@@ -14,6 +18,34 @@ public class ManejoArchivos {
 
     public ManejoArchivos(){
         palabras = new DoubleEndedLinkedList<>();
+    }
+
+    public Documentos indizarDoc(String url, String nombre){
+        try {
+            XWPFDocument doc = new XWPFDocument(new FileInputStream(url));
+            XWPFWordExtractor extractor = new XWPFWordExtractor(doc);
+            System.out.println(extractor.getText());
+            File nuevoDoc = new File(nombre);
+            nuevoDoc.createNewFile();
+            while(extractor.getText()!= null){
+                escribirTxt(nuevoDoc,extractor.getText());
+            }
+            leerArchivo(nuevoDoc.getPath());
+            Documentos documento = new Documentos(url,nuevoDoc.getPath(),arbolDoc());
+            return documento;
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return null;
+    }
+    private void escribirTxt(File file, String texto){
+        try {
+            PrintWriter escribir = new PrintWriter(file);
+            escribir.println(texto);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
@@ -44,5 +76,13 @@ public class ManejoArchivos {
             palabras.add(token.nextToken());
         }
     }
-
+    private ArbolBinarioBusqueda arbolDoc(){
+        ArbolBinarioBusqueda<Integer> arbol = new ArbolBinarioBusqueda<>();
+        Nodo temp = palabras.getHead();
+        while (temp != null){
+            arbol.agregar((String) temp.getDato());
+            temp = temp.getNext();
+        }
+        return arbol;
+    }
 }

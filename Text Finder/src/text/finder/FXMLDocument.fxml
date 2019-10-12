@@ -12,7 +12,27 @@
    <children>
       <SplitPane dividerPositions="0.1687211093990755" prefHeight="790.0" prefWidth="1300.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #def5d7;" />
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <SplitPane dividerPositions="0.12430238457635719" orientation="VERTICAL" prefHeight="790.0" prefWidth="216.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: #def5d7;">
+                           <children>
+                              <MenuButton layoutX="14.0" layoutY="34.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="76.0" text="Agregar">
+                                <items>
+                                    <MenuItem mnemonicParsing="false" text="DOCX" />
+                                  <MenuItem mnemonicParsing="false" text="PDF" />
+                                  <MenuItem mnemonicParsing="false" text="TXT" />
+                                    <MenuItem mnemonicParsing="false" text="Carpeta" />
+                                </items>
+                              </MenuButton>
+                              <Button layoutX="130.0" layoutY="34.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="64.0" text="Borrar" />
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane fx:id="lib" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: #e6e6e6;" />
+                    </items>
+                  </SplitPane>
+               </children></AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
                   <SplitPane dividerPositions="0.08329062019477192" orientation="VERTICAL" prefHeight="782.0" prefWidth="1082.0">
@@ -34,7 +54,7 @@
                            <children>
                               <ScrollPane prefHeight="713.0" prefWidth="1076.0">
                                 <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="713.0" prefWidth="1076.0" style="-fx-background-color: #f7ebc8;" />
+                                  <AnchorPane fx:id="resultados" minHeight="0.0" minWidth="0.0" prefHeight="713.0" prefWidth="1076.0" style="-fx-background-color: #fffbc9;" />
                                 </content>
                               </ScrollPane>
                            </children>
