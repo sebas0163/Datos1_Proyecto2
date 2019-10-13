@@ -28,6 +28,10 @@ public class DoubleEndedLinkedList<T>{
     public int len(){
         return this.lenn;
     }
+    public void apend(DoubleEndedLinkedList lista){
+        this.tile.setNext(lista.getHead());
+        this.tile=lista.getLast();
+    }
     /**
      * Metodo para determinar si todos los datos son iguales
      * @return boolean
