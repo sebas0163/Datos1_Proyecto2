@@ -26,8 +26,14 @@ public class Ejecutar {
     public void buscarPalabra(String palabra){
 
     }
-    public void addDocumento(String url,String nombre){
-        Documentos doc = manejoArchivos.indizarDoc(url, nombre);
+    public void addDocx(String url,String nombre){
+        Documentos doc = manejoArchivos.indizarDocx(url, nombre);
         biblioteca.agregarDocumento(doc);
+    }
+    public void addTxt(String url,String nombre){
+        Documentos doc = manejoArchivos.indizarTxt(url,nombre);
+        biblioteca.agregarDocumento(doc);
+    }
+    public void addPdf(String url, String nombre){
     }
 }

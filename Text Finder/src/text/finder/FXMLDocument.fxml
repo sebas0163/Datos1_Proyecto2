@@ -18,11 +18,11 @@
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: #def5d7;">
                            <children>
-                              <MenuButton layoutX="14.0" layoutY="34.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="76.0" text="Agregar">
+                              <MenuButton layoutX="3.0" layoutY="34.0" mnemonicParsing="false" onAction="#agregardocx" prefHeight="26.0" prefWidth="91.0" text="Agregar">
                                 <items>
-                                    <MenuItem mnemonicParsing="false" text="DOCX" />
+                                    <MenuItem mnemonicParsing="false" onAction="#agregardocx" text="DOCX" />
                                   <MenuItem mnemonicParsing="false" text="PDF" />
-                                  <MenuItem mnemonicParsing="false" text="TXT" />
+                                  <MenuItem mnemonicParsing="false" onAction="#agregarTxt" text="TXT" />
                                     <MenuItem mnemonicParsing="false" text="Carpeta" />
                                 </items>
                               </MenuButton>

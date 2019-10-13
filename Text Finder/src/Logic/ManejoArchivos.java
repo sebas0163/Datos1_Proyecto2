@@ -20,18 +20,29 @@ public class ManejoArchivos {
         palabras = new DoubleEndedLinkedList<>();
     }
 
-    public Documentos indizarDoc(String url, String nombre){
+    public Documentos indizarDocx(String url, String nombre){
         try {
             XWPFDocument doc = new XWPFDocument(new FileInputStream(url));
             XWPFWordExtractor extractor = new XWPFWordExtractor(doc);
-            System.out.println(extractor.getText());
-            File nuevoDoc = new File(nombre);
+            File nuevoDoc = new File("C:\\Users\\sebas\\Desktop\\git\\Datos1_Proyecto2\\biblioteca",nombre+".txt");
             nuevoDoc.createNewFile();
-            while(extractor.getText()!= null){
-                escribirTxt(nuevoDoc,extractor.getText());
-            }
+            escribirTxt(nuevoDoc,extractor.getText());
             leerArchivo(nuevoDoc.getPath());
             Documentos documento = new Documentos(url,nuevoDoc.getPath(),arbolDoc());
+            palabras.reset();
+            return documento;
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return null;
+    }
+    public Documentos indizarTxt(String url, String nombre){
+        try{
+            File nuevoDoc = new File("C:\\Users\\sebas\\Desktop\\git\\Datos1_Proyecto2\\biblioteca",nombre);
+            nuevoDoc.createNewFile();
+            leerArchivo(nuevoDoc.getPath());
+            Documentos documento = new Documentos(url,nuevoDoc.getPath(),arbolDoc());
+            palabras.reset();
             return documento;
         }catch (Exception e){
             System.out.println(e);
@@ -42,6 +53,7 @@ public class ManejoArchivos {
         try {
             PrintWriter escribir = new PrintWriter(file);
             escribir.println(texto);
+            escribir.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -107,10 +119,11 @@ public class ManejoArchivos {
      * @param lineaTexto linea de texto que se quiere separar
      */
     private void separarPalabras(String lineaTexto){
-        StringTokenizer token = new StringTokenizer(lineaTexto,",.  ");
+        StringTokenizer token = new StringTokenizer(lineaTexto,",. );:(");
         while (token.hasMoreElements()){
             palabras.add(token.nextToken());
         }
+        palabras.print();
     }
     private ArbolBinarioBusqueda arbolDoc(){
         ArbolBinarioBusqueda<Integer> arbol = new ArbolBinarioBusqueda<>();

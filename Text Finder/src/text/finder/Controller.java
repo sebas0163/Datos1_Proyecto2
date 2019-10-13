@@ -5,6 +5,7 @@
  */
 package text.finder;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -15,6 +16,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 
 /**
  *
@@ -26,6 +29,10 @@ public class Controller implements Initializable {
     private TextField txtIn;
     @FXML
     private Button btnBuscar;
+    @FXML
+    private AnchorPane lib;
+    @FXML
+    private AnchorPane resultados;
     private Ejecutar ejecutar;
 
     @Override
@@ -41,7 +48,20 @@ public class Controller implements Initializable {
         ejecutar.buscarPalabra(palabra);
 
     }
-
+    public void agregardocx(){
+        FileChooser chooser = new FileChooser();
+        chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("archivos docx","*docx"));
+        File archivoSeleccionado = chooser.showOpenDialog(null);
+        String archivo = archivoSeleccionado.getAbsolutePath();
+        ejecutar.addDocx(archivo,"hola");// arreglar nombre
+    }
+    public void agregarTxt(){
+        FileChooser chooser = new FileChooser();
+        chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("archivos txt",".txt"));
+        File archivoSeleccionado = chooser.showOpenDialog(null);
+        String archivo = archivoSeleccionado.getAbsolutePath();
+        ejecutar.addTxt(archivo,archivoSeleccionado.getName());// arreglar nombre
+    }
     /**
      * Ordena los resultados de las apariciones por nombre usando QuickSort
      */

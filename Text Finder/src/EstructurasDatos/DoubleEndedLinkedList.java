@@ -247,4 +247,7 @@ public class DoubleEndedLinkedList<T>{
     public Nodo<T> getHead() {
         return head;
     }
+    public void reset(){
+        this.head = null;
+    }
 }
