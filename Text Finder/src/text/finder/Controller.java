@@ -48,12 +48,19 @@ public class Controller implements Initializable {
         ejecutar.buscarPalabra(palabra);
 
     }
-    public void agregardocx(){
+    public void agregarDocx(){
         FileChooser chooser = new FileChooser();
         chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("archivos docx","*docx"));
         File archivoSeleccionado = chooser.showOpenDialog(null);
         String archivo = archivoSeleccionado.getAbsolutePath();
         ejecutar.addDocx(archivo,"hola");// arreglar nombre
+    }
+    public void agragarPdf(){
+        FileChooser chooser = new FileChooser();
+        chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("archivos pdf","*.pdf"));
+        File archivoSeleccionado = chooser.showOpenDialog(null);
+        String archivo = archivoSeleccionado.getAbsolutePath();
+        ejecutar.addPdf(archivo,"hola");// arreglar nombre
     }
     public void agregarTxt(){
         FileChooser chooser = new FileChooser();

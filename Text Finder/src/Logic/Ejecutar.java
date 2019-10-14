@@ -1,6 +1,7 @@
 package Logic;
 
 import EstructurasDatos.ArbolBinarioBusqueda;
+import EstructurasDatos.DoubleEndedLinkedList;
 import palabras.Palabra;
 
 /**
@@ -24,7 +25,8 @@ public class Ejecutar {
      * @param palabra
      */
     public void buscarPalabra(String palabra){
-
+        DoubleEndedLinkedList listaDocs = biblioteca.getListaDocumentos();
+        // terminar
     }
     public void addDocx(String url,String nombre){
         Documentos doc = manejoArchivos.indizarDocx(url, nombre);
@@ -35,5 +37,7 @@ public class Ejecutar {
         biblioteca.agregarDocumento(doc);
     }
     public void addPdf(String url, String nombre){
+        Documentos doc = manejoArchivos.indizarPdf(url,nombre);
+        biblioteca.agregarDocumento(doc);
     }
 }
