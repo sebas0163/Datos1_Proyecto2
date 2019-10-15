@@ -62,7 +62,8 @@ public class ManejoArchivos {
     public Documentos indizarPdf(String url, String nombre){
         try{
             File file = new File(url);
-            PDFParser parser = new PDFParser(new RandomAccessFile(file,"r"));
+            RandomAccessFile ff = new RandomAccessFile(file,"r");
+            PDFParser parser = new PDFParser(ff);
             parser.parse();
             COSDocument cosdoc = parser.getDocument();
             PDDocument doc = new PDDocument(cosdoc);
