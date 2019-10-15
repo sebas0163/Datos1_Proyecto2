@@ -30,4 +30,17 @@ public class Documentos {
     public String getRutaTxt() {
         return rutaTxt;
     }
+    
+    public DoubleEndedLinkedList buscarFrase(String frase){
+        DoubleEndedLinkedList list= new DoubleEndedLinkedList();
+        for (int i=1;i<listaTXT.len();i++){
+            if (listaTXT.getNodo(i).getDato().toString().toUpperCase().contains(frase.toUpperCase())){
+                list.add(listaTXT.getNodo(i-1).getDato().toString());
+                list.add(listaTXT.getNodo(i).getDato().toString());
+                list.add(listaTXT.getNodo(i+1).getDato().toString());
+                
+            }
+        }
+        return list;
+    }
 }
