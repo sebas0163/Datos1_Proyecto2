@@ -25,7 +25,7 @@ public class ArbolBinarioBusqueda<T> {
         NodoABB<Palabra> aux=raiz;
         while (true){            
             if (palabra.getValor()== aux.getDato().getValor()){
-                aux.getDato().addapariciones();
+                aux.getDato().addApariciones();
                 return;
             }
             if (palabra.getValor()> aux.getDato().getValor()) {

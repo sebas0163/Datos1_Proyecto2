@@ -31,7 +31,7 @@ public class Palabra {
     public int getValor() {
         return valor;
     }
-    public void addapariciones(){
+    public void addApariciones(){
         this.apariciones++;
     }
     public int strToInt(String a){
