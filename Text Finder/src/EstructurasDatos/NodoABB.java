@@ -35,7 +35,7 @@ public class NodoABB<T>{
         this.padre=padre;
     }
     public NodoABB<T> getPadre() {
-        return padre;
+        return this.padre;
     }
     public void setNodoD(NodoABB<T> nodoD) {
         this.nodoD = nodoD;

@@ -28,6 +28,10 @@ public class DoubleEndedLinkedList<T>{
     public int len(){
         return this.lenn;
     }
+    public void apend(DoubleEndedLinkedList lista){
+        this.tile.setNext(lista.getHead());
+        this.tile=lista.getLast();
+    }
     /**
      * Metodo para determinar si todos los datos son iguales
      * @return boolean
@@ -221,11 +225,30 @@ public class DoubleEndedLinkedList<T>{
         }
         aux.setNext(aux.getNext().getNext());
     }
+
+    public int buscarPos(T dato){
+        Nodo temp = this.head;
+        int i = 0;
+        while(temp != null){
+            if (temp.getDato() == dato){
+                break;
+            }
+            else{
+                temp = temp.getNext();
+                i ++;
+            }
+        }
+        return i;
+    }
     /**
      * Metodo para obterner el nodo en la ultima posicion     * 
      * @return Nodo en el tile de la lista
      */
     public Nodo<T> getLast(){
         return this.tile;
+    }
+
+    public Nodo<T> getHead() {
+        return head;
     }
 }
