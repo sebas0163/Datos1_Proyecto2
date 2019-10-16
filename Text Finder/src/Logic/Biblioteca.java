@@ -18,5 +18,7 @@ public class Biblioteca {
         listaDocumentos.remove(pos);
     }
 
-
+    public DoubleEndedLinkedList<Documentos> getListaDocumentos() {
+        return listaDocumentos;
+    }
 }
