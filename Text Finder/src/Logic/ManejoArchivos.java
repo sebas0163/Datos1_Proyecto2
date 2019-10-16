@@ -61,14 +61,17 @@ public class ManejoArchivos {
      */
     public Documentos indizarPdf(String url, String nombre){
         try{
-            File file = new File(url);
-            RandomAccessFile ff = new RandomAccessFile(file,"r");
-            PDFParser parser = new PDFParser(ff);
-            parser.parse();
-            COSDocument cosdoc = parser.getDocument();
-            PDDocument doc = new PDDocument(cosdoc);
+            PDDocument doc = new PDDocument().load(new File(url));
             PDFTextStripper stripper = new PDFTextStripper();
-            System.out.println(stripper.getText(doc));
+            File file = new File("C:\\Users\\sebas\\Desktop\\git\\Datos1_Proyecto2\\biblioteca",nombre+".txt");
+            file.createNewFile();
+            String fecha = obtenerFecha(file);
+            escribirTxt(file,stripper.getText(doc));
+            leerArchivo(file.getPath());
+            System.out.println(file.length());
+            Documentos documento = new Documentos(url,file.getPath(),arbolDoc(),file.getName(),file.length(),fecha);
+            palabras.reset();
+            return documento;
 
         }catch (Exception e){
             System.out.println(e);
@@ -186,7 +189,7 @@ public class ManejoArchivos {
      * @param lineaTexto linea de texto que se quiere separar
      */
     private void separarPalabras(String lineaTexto){
-        StringTokenizer token = new StringTokenizer(lineaTexto,",. );:( DEMO");
+        StringTokenizer token = new StringTokenizer(lineaTexto,",. );:(");
         while (token.hasMoreElements()){
             palabras.add(token.nextToken());
         }
