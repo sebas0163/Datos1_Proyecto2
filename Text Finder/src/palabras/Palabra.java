@@ -22,7 +22,8 @@ public class Palabra {
         this.valor= strToInt(palabra);
         this.apariciones=apariciones;
         
-    }
+    }    
+    
 
     public String getPalabra() {
         return palabra;
