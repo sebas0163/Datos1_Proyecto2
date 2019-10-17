@@ -103,11 +103,12 @@ public class ArbolBinarioBusqueda<T> {
         Palabra palabra=new Palabra(dato);
         NodoABB<Palabra> aux=raiz;
         while(aux!=null){
-            if(aux.getDato().getPalabra()==palabra.getPalabra()){
+            if(aux.getDato().getValor()==palabra.getValor()){
                 return aux.getDato();
             }
             if(palabra.getValor()<aux.getDato().getValor()){
                 aux=aux.getNodoI();
+                continue;
             }
             if(palabra.getValor()>aux.getDato().getValor()){
                 aux=aux.getNodoD();
