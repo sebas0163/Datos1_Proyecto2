@@ -21,6 +21,7 @@ public class ArbolBinarioBusqueda<T> {
         if (esVacio()) {            
             NodoABB nuevo = new NodoABB(palabra);
             raiz = nuevo;
+            return;
         }
         NodoABB<Palabra> aux=raiz;
         while (true){            
@@ -30,7 +31,7 @@ public class ArbolBinarioBusqueda<T> {
             }
             if (palabra.getValor()> aux.getDato().getValor()) {
                 if(aux.getNodoD()==null){
-                    aux.getNodoD().setDato(palabra);
+                    aux.setNodoD(new NodoABB(palabra));
                     aux.getNodoD().setPadre(aux);
                     return;
                 }
@@ -39,11 +40,11 @@ public class ArbolBinarioBusqueda<T> {
             }
             if (palabra.getValor() < aux.getDato().getValor()){
                 if(aux.getNodoI()==null){
-                   aux.getNodoI().setDato(palabra);
-                   aux.getNodoI().setPadre(aux); 
+                   aux.setNodoI(new NodoABB(palabra));                          
+                   aux.getNodoI().setPadre(aux);
+                   return;
                 }
-                aux=aux.getNodoI();
-                continue;
+                aux=aux.getNodoI();                
             }
         }
     }            

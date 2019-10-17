@@ -8,30 +8,30 @@ import palabras.Palabra;
 public class NodoABB<T>{
     private T dato;
     private NodoABB<T> nodoD;
-    private NodoABB<T> nodoR;
+    private NodoABB<T> nodoI;
     private NodoABB<T> padre;
    
 
     public  NodoABB(){
         this.dato=null;
         this.nodoD=null;
-        this.nodoR=null;        
+        this.nodoI=null;        
     }
     public  NodoABB(T dato){
         this.dato=dato;
         this.nodoD=null;
-        this.nodoR=null; 
+        this.nodoI=null; 
         
     }
     public  NodoABB(T dato,NodoABB r,NodoABB d){
         this.dato=dato;
         this.nodoD=d;
-        this.nodoR=r; 
+        this.nodoI=r; 
     }
     public  NodoABB(T dato,NodoABB<T> padre){
         this.dato=dato;
         this.nodoD=null;
-        this.nodoR=null; 
+        this.nodoI=null; 
         this.padre=padre;
     }
     public NodoABB<T> getPadre() {
@@ -41,8 +41,8 @@ public class NodoABB<T>{
         this.nodoD = nodoD;
     }
 
-    public void setNodoR(NodoABB<T> nodoR) {
-        this.nodoR = nodoR;
+    public void setNodoI(NodoABB<T> nodoI) {
+        this.nodoI = nodoI;
     }
 
     public void setPadre(NodoABB<T> padre) {
@@ -61,7 +61,7 @@ public class NodoABB<T>{
     }
 
     public NodoABB<T> getNodoI() {
-        return nodoR;
+        return nodoI;
     }
       
       
