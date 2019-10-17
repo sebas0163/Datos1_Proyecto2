@@ -3,9 +3,6 @@ package Logic;
 import EstructurasDatos.ArbolBinarioBusqueda;
 import EstructurasDatos.DoubleEndedLinkedList;
 import EstructurasDatos.Nodo;
-import org.apache.pdfbox.cos.COSDocument;
-import org.apache.pdfbox.io.RandomAccessFile;
-import org.apache.pdfbox.pdfparser.PDFParser;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
@@ -201,7 +198,7 @@ public class ManejoArchivos {
      * @return
      */
     private ArbolBinarioBusqueda arbolDoc(){
-        ArbolBinarioBusqueda<Integer> arbol = new ArbolBinarioBusqueda<>();
+        ArbolBinarioBusqueda arbol = new ArbolBinarioBusqueda<>();
         Nodo temp = palabras.getHead();
         while (temp != null){
             arbol.agregar((String) temp.getDato());

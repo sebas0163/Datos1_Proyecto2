@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
@@ -31,7 +32,7 @@ public class Controller implements Initializable {
     @FXML
     private TreeView lib;
     @FXML
-    private AnchorPane resultados;
+    private VBox resultados;
     private Ejecutar ejecutar;
 
     @Override
@@ -46,8 +47,10 @@ public class Controller implements Initializable {
      * Metodo encargado de tomar la palabra o frase que se encuentra en el textField y la envia para ser procesada.
      */
     public void buscar (){
+        resultados.getChildren().clear();
         String palabra = txtIn.getText();
-        ejecutar.buscarPalabra(palabra);
+        ejecutar.buscarPalabra(palabra,resultados);
+
 
     }
     public void agregarDocx(){

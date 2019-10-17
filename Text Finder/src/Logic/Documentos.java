@@ -49,4 +49,16 @@ public class Documentos {
         }
         return list;
     }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public long getTamano() {
+        return tamano;
+    }
 }

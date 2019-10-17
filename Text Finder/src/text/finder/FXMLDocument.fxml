@@ -8,6 +8,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="790.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="text.finder.Controller">
    <children>
@@ -54,9 +55,9 @@
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                            <children>
                               <ScrollPane prefHeight="713.0" prefWidth="1076.0">
-                                <content>
-                                  <AnchorPane fx:id="resultados" minHeight="0.0" minWidth="0.0" prefHeight="713.0" prefWidth="1076.0" style="-fx-background-color: #fffbc9;" />
-                                </content>
+                                 <content>
+                                    <VBox fx:id="resultados" prefHeight="698.0" prefWidth="1074.0" />
+                                 </content>
                               </ScrollPane>
                            </children>
                         </AnchorPane>
