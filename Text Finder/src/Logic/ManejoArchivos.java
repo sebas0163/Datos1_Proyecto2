@@ -96,6 +96,12 @@ public class ManejoArchivos {
         }
         return null;
     }
+
+    /**
+     * Método encargado de obtener los datos de creacion del documento
+     * @param file
+     * @return
+     */
     private String obtenerFecha(File file){
         BasicFileAttributes attrs;
         try{

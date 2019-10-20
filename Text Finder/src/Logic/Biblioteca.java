@@ -15,6 +15,9 @@ public class Biblioteca {
     }
     public void eliminarDocumento(Documentos documento){
         int pos = listaDocumentos.buscarPos(documento);
+        Documentos doc = listaDocumentos.getInfo(pos);
+        File file = new File(doc.getRutaTxt());
+        file.delete();
         listaDocumentos.remove(pos);
     }
 

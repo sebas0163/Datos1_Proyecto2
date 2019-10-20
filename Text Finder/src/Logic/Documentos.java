@@ -3,6 +3,7 @@ package Logic;
 import EstructurasDatos.ArbolBinarioBusqueda;
 import EstructurasDatos.DoubleEndedLinkedList;
 import Logic.ManejoArchivos;
+import javafx.scene.control.TreeItem;
 
 
 public class Documentos {
@@ -12,6 +13,7 @@ public class Documentos {
     private long tamano;
     private ArbolBinarioBusqueda<Integer> arbolPalabras;
     private String rutaTxt;
+    private TreeItem item;
     
 
     public Documentos(String ruta1,String ruta2,ArbolBinarioBusqueda arbol,String nombre,long tamano,String fecha){
@@ -60,5 +62,13 @@ public class Documentos {
 
     public long getTamano() {
         return tamano;
+    }
+
+    public TreeItem getItem() {
+        return item;
+    }
+
+    public void setItem(TreeItem item) {
+        this.item = item;
     }
 }
