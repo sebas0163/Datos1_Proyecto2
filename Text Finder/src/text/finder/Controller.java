@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 
 import Logic.Biblioteca;
 import Logic.Ejecutar;
+import Logic.Singleton;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -35,10 +36,12 @@ public class Controller implements Initializable {
     @FXML
     private VBox resultados;
     private Ejecutar ejecutar;
+    private String path;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.ejecutar = new Ejecutar();
+        this.path = "C:\\Users\\sebas\\Desktop\\git\\Datos1_Proyecto2\\biblioteca";
+        this.ejecutar = Singleton.getInstancia();
         TreeItem<String> root = new TreeItem<>("Libreria");
         lib.setRoot(root);
         lib.setShowRoot(true);
@@ -62,7 +65,7 @@ public class Controller implements Initializable {
         String archivo = archivoSeleccionado.getAbsolutePath();
         int largo = archivoSeleccionado.getName().length();
         TreeItem<String> item = new TreeItem<>(archivoSeleccionado.getName());
-        ejecutar.addDocx(archivo,archivoSeleccionado.getName().substring(0,largo-5),item);// arreglar nombre
+        ejecutar.addDocx(archivo,archivoSeleccionado.getName().substring(0,largo-5),item,path);// arreglar nombre
         lib.getRoot().getChildren().add(item);
     }
 
@@ -76,7 +79,7 @@ public class Controller implements Initializable {
         String archivo = archivoSeleccionado.getAbsolutePath();
         int largo = archivoSeleccionado.getName().length();
         TreeItem<String> item = new TreeItem<>(archivoSeleccionado.getName());
-        ejecutar.addPdf(archivo,archivoSeleccionado.getName().substring(0,largo-4),item);// arreglar nombre
+        ejecutar.addPdf(archivo,archivoSeleccionado.getName().substring(0,largo-4),item,path);// arreglar nombre
         lib.getRoot().getChildren().add(item);
     }
     /**
@@ -88,7 +91,7 @@ public class Controller implements Initializable {
         File archivoSeleccionado = chooser.showOpenDialog(null);
         String archivo = archivoSeleccionado.getAbsolutePath();
         TreeItem<String> item = new TreeItem<>(archivoSeleccionado.getName());
-        ejecutar.addTxt(archivo,archivoSeleccionado.getName(),item);
+        ejecutar.addTxt(archivo,archivoSeleccionado.getName(),item,path);
         lib.getRoot().getChildren().add(item);
     }
     /**
@@ -99,7 +102,7 @@ public class Controller implements Initializable {
         File archivoseleccionado = chooser.showDialog(null);
         String archivo = archivoseleccionado.getAbsolutePath();
         TreeItem<String> item = new TreeItem<>(archivoseleccionado.getName());
-        ejecutar.addCarpeta(item,archivo);
+        ejecutar.addCarpeta(item,archivo,path);
         lib.getRoot().getChildren().add(item);
     }
     /**
