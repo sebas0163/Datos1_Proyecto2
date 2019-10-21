@@ -32,16 +32,16 @@ public class ManejoArchivos {
      * @param nombre nombre del archivo
      * @return instancia del de la clase documento con los datos del archivo.
      */
-    public Documentos indizarDocx(String url, String nombre){
+    public Documentos indizarDocx(String url, String nombre,String ruta){
         try {
             XWPFDocument doc = new XWPFDocument(new FileInputStream(url));
             XWPFWordExtractor extractor = new XWPFWordExtractor(doc);
-            File nuevoDoc = new File("C:\\Users\\sebas\\Desktop\\git\\Datos1_Proyecto2\\biblioteca",nombre+".txt");
+            File nuevoDoc = new File(ruta,nombre+".txt");
             nuevoDoc.createNewFile();
             String fecha = obtenerFecha(nuevoDoc);
             escribirTxt(nuevoDoc,extractor.getText());
             leerArchivo(nuevoDoc.getPath());
-            Documentos documento = new Documentos(url,nuevoDoc.getPath(),arbolDoc(),nuevoDoc.getName(),nuevoDoc.length(),fecha);
+            Documentos documento = new Documentos(url,nuevoDoc.getPath(),arbolDoc(),nuevoDoc.getName(),nuevoDoc.length(),fecha,nombre);
             palabras.reset();
             return documento;
         }catch (Exception e){
@@ -56,17 +56,17 @@ public class ManejoArchivos {
      * @param nombre nombre del archivo
      * @return instancia del de la clase documento con los datos del archivo.
      */
-    public Documentos indizarPdf(String url, String nombre){
+    public Documentos indizarPdf(String url, String nombre,String ruta){
         try{
             PDDocument doc = new PDDocument().load(new File(url));
             PDFTextStripper stripper = new PDFTextStripper();
-            File file = new File("C:\\Users\\sebas\\Desktop\\git\\Datos1_Proyecto2\\biblioteca",nombre+".txt");
+            File file = new File(ruta,nombre+".txt");
             file.createNewFile();
             String fecha = obtenerFecha(file);
             escribirTxt(file,stripper.getText(doc));
             leerArchivo(file.getPath());
             System.out.println(file.length());
-            Documentos documento = new Documentos(url,file.getPath(),arbolDoc(),file.getName(),file.length(),fecha);
+            Documentos documento = new Documentos(url,file.getPath(),arbolDoc(),file.getName(),file.length(),fecha,nombre);
             palabras.reset();
             return documento;
 
@@ -82,13 +82,13 @@ public class ManejoArchivos {
      * @param nombre nombre del archivo
      * @return instancia del de la clase documento con los datos del archivo.
      */
-    public Documentos indizarTxt(String url, String nombre){
+    public Documentos indizarTxt(String url, String nombre,String ruta){
         try{
-            File nuevoDoc = new File("C:\\Users\\sebas\\Desktop\\git\\Datos1_Proyecto2\\biblioteca",nombre);
+            File nuevoDoc = new File(ruta,nombre);
             nuevoDoc.createNewFile();
             String fecha = obtenerFecha(nuevoDoc);
             leerArchivo(nuevoDoc.getPath());
-            Documentos documento = new Documentos(url,nuevoDoc.getPath(),arbolDoc(),nuevoDoc.getName(),nuevoDoc.length(),fecha);
+            Documentos documento = new Documentos(url,nuevoDoc.getPath(),arbolDoc(),nuevoDoc.getName(),nuevoDoc.length(),fecha,nombre);
             palabras.reset();
             return documento;
         }catch (Exception e){
@@ -96,6 +96,12 @@ public class ManejoArchivos {
         }
         return null;
     }
+
+    /**
+     * Método encargado de obtener los datos de creacion del documento
+     * @param file
+     * @return
+     */
     private String obtenerFecha(File file){
         BasicFileAttributes attrs;
         try{
@@ -190,7 +196,6 @@ public class ManejoArchivos {
         while (token.hasMoreElements()){
             palabras.add(token.nextToken());
         }
-        palabras.print();
     }
 
     /**

@@ -3,19 +3,34 @@ package Logic;
 import EstructurasDatos.ArbolBinarioBusqueda;
 import EstructurasDatos.DoubleEndedLinkedList;
 import Logic.ManejoArchivos;
+import javafx.scene.control.TreeItem;
 
-
+/**
+ * Clase encargada de administrar los datos relacionados a cada documento.
+ * @author Sebastian Moya
+ */
 public class Documentos {
     private String ruta;
     private String nombre;
     private String fecha;
+    private String nombreOrg;
     private long tamano;
     private ArbolBinarioBusqueda<Integer> arbolPalabras;
     private String rutaTxt;
-    
+    private TreeItem item;
 
-    public Documentos(String ruta1,String ruta2,ArbolBinarioBusqueda arbol,String nombre,long tamano,String fecha){
+    /**
+     * Metodo contructor de la clase.
+     * @param ruta1 ruta de donde se tomó el documento.
+     * @param ruta2 ruta donde se encuentra el documento ahora.
+     * @param arbol arbol que contiene las palabras del documento.
+     * @param nombre nombre del documento
+     * @param tamano peso del documento
+     * @param fecha fecha de cracion del documento.
+     */
+    public Documentos(String ruta1,String ruta2,ArbolBinarioBusqueda arbol,String nombre,long tamano,String fecha,String nombreOrg){
         this.fecha = fecha;
+        this.nombreOrg = nombreOrg;
         this.nombre = nombre;
         this.tamano = tamano;
         this.ruta = ruta1;
@@ -35,7 +50,12 @@ public class Documentos {
     public String getRutaTxt() {
         return rutaTxt;
     }
-    
+
+    /**
+     * Metodo encargado de realizar la busqueda de una frase en el documento.
+     * @param frase frase que se desea buscar.
+     * @return
+     */
     public DoubleEndedLinkedList buscarFrase(String frase){
         ManejoArchivos lec=new ManejoArchivos();
         DoubleEndedLinkedList listaTXT=lec.read(rutaTxt);;
@@ -60,5 +80,17 @@ public class Documentos {
 
     public long getTamano() {
         return tamano;
+    }
+
+    public TreeItem getItem() {
+        return item;
+    }
+
+    public void setItem(TreeItem item) {
+        this.item = item;
+    }
+
+    public String getNombreOrg() {
+        return nombreOrg;
     }
 }
