@@ -96,9 +96,13 @@ public class ArbolBinarioBusqueda<T> {
         }          
         return menor(nodo.getNodoD());
     }
-    
 
 
+    /**
+     * 
+     * @param dato
+     * @return
+     */
     public Palabra buscar(String dato){
         Palabra palabra=new Palabra(dato);
         NodoABB<Palabra> aux=raiz;
