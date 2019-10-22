@@ -3,9 +3,12 @@ package Logic;
 import EstructurasDatos.ArbolBinarioBusqueda;
 import EstructurasDatos.DoubleEndedLinkedList;
 import EstructurasDatos.Nodo;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -17,6 +20,7 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import palabras.Palabra;
 
+import javax.print.Doc;
 import java.io.File;
 
 /**
@@ -25,18 +29,24 @@ import java.io.File;
  */
 public class Ejecutar {
     private ManejoArchivos manejoArchivos;
+    private MenuButton agregar;
+    private MenuButton eliminar;
     private Biblioteca biblioteca;
     private String path;
     private String buscado;
     private DoubleEndedLinkedList<Resultado> listaResultado;
+    private TreeItem raiz;
 
     /**
      * Metodo constructor de la clase.
      */
-    public Ejecutar(){
+    public Ejecutar(TreeItem raiz,MenuButton agregar, MenuButton eliminar){
         this.manejoArchivos = new ManejoArchivos();
+        this.agregar = agregar;
+        this.eliminar = eliminar;
         this.biblioteca = new Biblioteca();
         this.listaResultado = new DoubleEndedLinkedList<>();
+        this.raiz = raiz;
         this.path = "";
     }
 
@@ -52,11 +62,12 @@ public class Ejecutar {
         while(temp != null) {
             Documentos documento = (Documentos) temp.getDato();
             ArbolBinarioBusqueda arbol = documento.getArbolPalabras();
-            if (arbol.buscar(buscado).equals(null)){
-                System.out.println("La palabra no está en el documento");
-            }else {
+            if (arbol.buscar(buscado)!= null){
                 Palabra palabra = arbol.buscar(buscado);
                 mostrarApariciones(palabra, resultados,documento);
+                temp = temp.getNext();
+            }else {
+                System.out.println("La palabra no está en el documento");
                 temp = temp.getNext();
             }
         }
@@ -67,10 +78,15 @@ public class Ejecutar {
      * @param url ruta del documento.
      * @param nombre nombre del archivo.
      */
-    public void addDocx(String url,String nombre, TreeItem item,String rutaBib){
+    public void addDocx(String url,String nombre, TreeItem item,String rutaBib,MenuItem opcion1,MenuItem opcion2,MenuButton modificar,MenuButton eliminar){
         Documentos doc = manejoArchivos.indizarDocx(url, nombre,rutaBib);
         doc.setItem(item);
+        opcion2.setOnAction(eliminarAct);
+        doc.setAgregar(opcion1);
+        doc.setEliminar(opcion2);
         biblioteca.agregarDocumento(doc);
+        modificar.getItems().add(opcion1);
+        eliminar.getItems().add(opcion2);
     }
 
     /**
@@ -78,10 +94,15 @@ public class Ejecutar {
      * @param url ruta del docuemento
      * @param nombre Nombre del documento
      */
-    public void addTxt(String url,String nombre, TreeItem item,String rutaBib){
+    public void addTxt(String url,String nombre, TreeItem item,String rutaBib,MenuItem opcion1,MenuItem opcion2,MenuButton modificar,MenuButton eliminar){
         Documentos doc = manejoArchivos.indizarTxt(url,nombre,rutaBib);
+        opcion2.setOnAction(eliminarAct);
+        doc.setEliminar(opcion2);
+        doc.setAgregar(opcion1);
         doc.setItem(item);
         biblioteca.agregarDocumento(doc);
+        modificar.getItems().add(opcion1);
+        eliminar.getItems().add(opcion2);
     }
 
     /**
@@ -89,10 +110,15 @@ public class Ejecutar {
      * @param url ruta del documento.
      * @param nombre Nombre del documento
      */
-    public void addPdf(String url, String nombre, TreeItem item,String rutaBib){
+    public void addPdf(String url, String nombre, TreeItem item,String rutaBib,MenuItem opcion1,MenuItem opcion2,MenuButton modificar,MenuButton eliminar){
         Documentos doc = manejoArchivos.indizarPdf(url,nombre,rutaBib);
+        opcion2.setOnAction(eliminarAct);
+        doc.setAgregar(opcion1);
+        doc.setEliminar(opcion2);
         doc.setItem(item);
         biblioteca.agregarDocumento(doc);
+        modificar.getItems().add(opcion1);
+        eliminar.getItems().add(opcion2);
     }
 
     /**
@@ -100,34 +126,53 @@ public class Ejecutar {
      * @param item Nodo del arbol en el que e va a mostrar la carpeta.
      * @param url ruta de la carpeta
      */
-    public void addCarpeta(TreeItem item, String url,String rutaBib){
+    public void addCarpeta(TreeItem item, String url,String rutaBib,MenuItem opcion2,MenuButton modificar,MenuButton eliminar){
         File file = new File(url);
         File file1 = new File(rutaBib,file.getName());
         file1.mkdir();
+        Documentos doc = new Documentos(url,file1.getPath(),null,file.getName(),file.length(),null,file.getName());
+        doc.setEliminar(opcion2);
+        doc.setItem(item);
+        biblioteca.getListaDocumentos().add(doc);
+        if(opcion2 != null){
+            opcion2.setOnAction(eliminarAct2);
+        }
+        doc.setEliminar(opcion2);
         for (File fichero: file.listFiles()){
             int largo = fichero.getName().length();
             String formato = fichero.getName().substring(largo-4,largo);
             String formato2 = fichero.getName().substring(largo-5,largo);
             if (formato.equals(".txt")){
                 TreeItem item1 = new TreeItem(fichero.getName());
-                addTxt(fichero.getAbsolutePath(),fichero.getName(),item1,file1.getAbsolutePath());
+                MenuItem item2 = new MenuItem(fichero.getName());
+                MenuItem item3 = new MenuItem(fichero.getName());
+                addTxt(fichero.getAbsolutePath(),fichero.getName(),item1,file1.getAbsolutePath(),item2,item3,modificar,eliminar);
                 item.getChildren().add(item1);
+                eliminar.getItems().add(opcion2);
             }
             else if(formato.equals(".pdf")){
                 int length = fichero.getName().length();
                 TreeItem item1 = new TreeItem(fichero.getName());
-                addPdf(fichero.getAbsolutePath(),fichero.getName().substring(0,length-5),item1,file1.getAbsolutePath());
+                MenuItem item2 = new MenuItem(fichero.getName());
+                MenuItem item3 = new MenuItem(fichero.getName());
+                addPdf(fichero.getAbsolutePath(),fichero.getName().substring(0,length-5),item1,file1.getAbsolutePath(),item2,item3,modificar,eliminar);
                 item.getChildren().add(item1);
+                eliminar.getItems().add(opcion2);
             }
             else if (formato2.equals(".docx")) {
                 int length = fichero.getName().length();
                 TreeItem item1 = new TreeItem(fichero.getName());
-                addDocx(fichero.getAbsolutePath(), fichero.getName().substring(0, length - 5), item1, file1.getAbsolutePath());
+                MenuItem item2 = new MenuItem(fichero.getName());
+                MenuItem item3 = new MenuItem(fichero.getName());
+                addDocx(fichero.getAbsolutePath(), fichero.getName().substring(0, length - 5), item1, file1.getAbsolutePath(),item2,item3,modificar,eliminar);
                 item.getChildren().add(item1);
+                eliminar.getItems().add(opcion2);
             }else if (!(fichero.getName().contains("."))){
                 TreeItem item1 = new TreeItem(fichero.getName());
-                addCarpeta(item1,fichero.getAbsolutePath(),file1.getAbsolutePath());
+                MenuItem item2 = new MenuItem(fichero.getName());
+                addCarpeta(item1,fichero.getAbsolutePath(),file1.getAbsolutePath(),item2,modificar,eliminar);
                 item.getChildren().add(item1);
+                eliminar.getItems().add(opcion2);
             }
             else{
 
@@ -168,19 +213,53 @@ public class Ejecutar {
 
     /**
      * Metodo encargado de elimnar algun documento cargado
-     * @param item nodo del arbol donde se encuentra el documento
+     * @param doc instancia del dcoumento que contiene la informacion del archivo.
      */
-    public void eliminarDoc(TreeItem item){
+    public void eliminarDoc(Documentos doc){
         DoubleEndedLinkedList listadocs = biblioteca.getListaDocumentos();
-        Nodo temp = listadocs.getHead();
-        while(temp != null){
-            Documentos doc = (Documentos) temp.getDato();
-            if (doc.getItem().equals(item)) {
-                biblioteca.eliminarDocumento(doc);
-                break;
+        File file = new File(doc.getRutaTxt());
+        file.delete();
+        raiz.getChildren().remove(doc.getItem());
+        agregar.getItems().remove(doc.getAgregar());
+        eliminar.getItems().remove(doc.getEliminar());
+        int pos = listadocs.buscarPos(doc);
+        listadocs.remove(pos);
+    }
+
+    /**
+     * Metodo encargado de eliminar carpetas del programa
+     * @param doc instancia del dcoumento que contiene la informacion de la carpeta.
+     */
+    public void eliminarCarpeta(Documentos doc){
+        DoubleEndedLinkedList listaDocs = biblioteca.getListaDocumentos();
+        File file = new File(doc.getRutaTxt());
+        for(File fichero: file.listFiles()){
+            Nodo temp = listaDocs.getHead();
+            if (fichero.isDirectory()){
+                while (temp != null) {
+                    Documentos archivo = (Documentos) temp.getDato();
+                    if (archivo.getRutaTxt().equals(fichero.getPath())) {
+                        eliminarCarpeta(archivo);
+                    }
+                    temp = temp.getNext();
+                }
+            }else{
+                while (temp != null) {
+                    Documentos archivo = (Documentos) temp.getDato();
+                    if (archivo.getRutaTxt().equals(fichero.getAbsolutePath())) {
+                        eliminarDoc(archivo);
+                    }
+                    temp = temp.getNext();
+                }
             }
-            temp = temp.getNext();
         }
+        raiz.getChildren().remove(doc.getItem());
+        eliminar.getItems().remove(doc.getEliminar());
+        file.delete();
+        int pos = listaDocs.buscarPos(doc);
+        System.out.println(listaDocs.len());
+        listaDocs.remove(pos);
+
     }
 
     /**
@@ -234,6 +313,38 @@ public class Ejecutar {
                     stage.show();
                 } catch (Exception e) {
                     System.out.println(e);
+                }
+            }
+        }
+    };
+    EventHandler<ActionEvent> eliminarAct = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            MenuItem item = (MenuItem) event.getSource();
+            Nodo temp = biblioteca.getListaDocumentos().getHead();
+            while(temp != null){
+                Documentos doc = (Documentos) temp.getDato();
+                if(doc.getEliminar().equals(item)){
+                    eliminarDoc(doc);
+                    break;
+                }else{
+                    temp = temp.getNext();
+                }
+            }
+        }
+    };
+    EventHandler<ActionEvent> eliminarAct2 = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            MenuItem item = (MenuItem) event.getSource();
+            Nodo temp = biblioteca.getListaDocumentos().getHead();
+            while(temp != null){
+                Documentos doc = (Documentos) temp.getDato();
+                if(doc.getEliminar().equals(item)){
+                    eliminarCarpeta(doc);
+                    break;
+                }else{
+                    temp = temp.getNext();
                 }
             }
         }

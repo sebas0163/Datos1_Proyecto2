@@ -68,6 +68,7 @@ public class ManejoArchivos {
             System.out.println(file.length());
             Documentos documento = new Documentos(url,file.getPath(),arbolDoc(),file.getName(),file.length(),fecha,nombre);
             palabras.reset();
+            doc.close();
             return documento;
 
         }catch (Exception e){
@@ -181,6 +182,7 @@ public class ManejoArchivos {
             while((lineaTexto = bf.readLine()) != null){
                 separarPalabras(lineaTexto);
             }
+            bf.close();
 
         }catch (Exception e){
 

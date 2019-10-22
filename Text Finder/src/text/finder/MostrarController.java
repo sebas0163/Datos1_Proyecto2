@@ -5,7 +5,6 @@
  */
 package text.finder;
 
-import java.awt.*;
 import java.io.BufferedReader;
 
 import EstructurasDatos.DoubleEndedLinkedList;
@@ -13,7 +12,6 @@ import Logic.Ejecutar;
 import java.io.FileReader;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.StringTokenizer;
 
 import Logic.Singleton;
 import javafx.fxml.FXML;
@@ -38,7 +36,7 @@ public class MostrarController implements Initializable {
     public Label titulo;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.ejecutar = Singleton.getInstancia();
+        this.ejecutar = Singleton.getInstancia(null,null,null);
         this.path = ejecutar.getPath();
         titulo.setText(ejecutar.buscarNombre(path));
         setText();
@@ -67,6 +65,7 @@ public class MostrarController implements Initializable {
                     }
                 }
             }
+            bf.close();
 
         }catch (Exception e){
 

@@ -34,16 +34,20 @@ public class Controller implements Initializable {
     @FXML
     private TreeView lib;
     @FXML
+    private MenuButton btnModificar;
+    @FXML
+    private MenuButton btnEliminar;
+    @FXML
     private VBox resultados;
     private Ejecutar ejecutar;
     private String path;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.path = "C:\\Users\\sebas\\Desktop\\git\\Datos1_Proyecto2\\biblioteca";
-        this.ejecutar = Singleton.getInstancia();
         TreeItem<String> root = new TreeItem<>("Libreria");
         lib.setRoot(root);
+        this.path = "C:\\Users\\sebas\\Desktop\\git\\Datos1_Proyecto2\\biblioteca";
+        this.ejecutar = Singleton.getInstancia(lib.getRoot(),btnEliminar,btnEliminar);
         lib.setShowRoot(true);
     }
 
@@ -65,7 +69,9 @@ public class Controller implements Initializable {
         String archivo = archivoSeleccionado.getAbsolutePath();
         int largo = archivoSeleccionado.getName().length();
         TreeItem<String> item = new TreeItem<>(archivoSeleccionado.getName());
-        ejecutar.addDocx(archivo,archivoSeleccionado.getName().substring(0,largo-5),item,path);// arreglar nombre
+        MenuItem opcion = new MenuItem(archivoSeleccionado.getName());
+        MenuItem opcion2 = new MenuItem(archivoSeleccionado.getName());
+        ejecutar.addDocx(archivo,archivoSeleccionado.getName().substring(0,largo-5),item,path,opcion,opcion2,btnModificar,btnEliminar);// arreglar nombre
         lib.getRoot().getChildren().add(item);
     }
 
@@ -79,7 +85,9 @@ public class Controller implements Initializable {
         String archivo = archivoSeleccionado.getAbsolutePath();
         int largo = archivoSeleccionado.getName().length();
         TreeItem<String> item = new TreeItem<>(archivoSeleccionado.getName());
-        ejecutar.addPdf(archivo,archivoSeleccionado.getName().substring(0,largo-4),item,path);// arreglar nombre
+        MenuItem opcion = new MenuItem(archivoSeleccionado.getName());
+        MenuItem opcion2 = new MenuItem(archivoSeleccionado.getName());
+        ejecutar.addPdf(archivo,archivoSeleccionado.getName().substring(0,largo-4),item,path,opcion,opcion2,btnModificar,btnEliminar);// arreglar nombre
         lib.getRoot().getChildren().add(item);
     }
     /**
@@ -91,7 +99,9 @@ public class Controller implements Initializable {
         File archivoSeleccionado = chooser.showOpenDialog(null);
         String archivo = archivoSeleccionado.getAbsolutePath();
         TreeItem<String> item = new TreeItem<>(archivoSeleccionado.getName());
-        ejecutar.addTxt(archivo,archivoSeleccionado.getName(),item,path);
+        MenuItem opcion = new MenuItem(archivoSeleccionado.getName());
+        MenuItem opcion2 = new MenuItem(archivoSeleccionado.getName());
+        ejecutar.addTxt(archivo,archivoSeleccionado.getName(),item,path,opcion,opcion2,btnModificar,btnEliminar);
         lib.getRoot().getChildren().add(item);
     }
     /**
@@ -102,7 +112,8 @@ public class Controller implements Initializable {
         File archivoseleccionado = chooser.showDialog(null);
         String archivo = archivoseleccionado.getAbsolutePath();
         TreeItem<String> item = new TreeItem<>(archivoseleccionado.getName());
-        ejecutar.addCarpeta(item,archivo,path);
+        MenuItem opcion = new MenuItem(archivoseleccionado.getName());
+        ejecutar.addCarpeta(item,archivo,path,opcion,btnModificar,btnEliminar);
         lib.getRoot().getChildren().add(item);
     }
     /**

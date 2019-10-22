@@ -3,6 +3,7 @@ package Logic;
 import EstructurasDatos.ArbolBinarioBusqueda;
 import EstructurasDatos.DoubleEndedLinkedList;
 import Logic.ManejoArchivos;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 
 /**
@@ -18,6 +19,9 @@ public class Documentos {
     private ArbolBinarioBusqueda<Integer> arbolPalabras;
     private String rutaTxt;
     private TreeItem item;
+    private MenuItem eliminar;
+    private MenuItem agregar;
+
 
     /**
      * Metodo contructor de la clase.
@@ -92,5 +96,21 @@ public class Documentos {
 
     public String getNombreOrg() {
         return nombreOrg;
+    }
+
+    public MenuItem getEliminar() {
+        return eliminar;
+    }
+
+    public void setEliminar(MenuItem eliminar) {
+        this.eliminar = eliminar;
+    }
+
+    public MenuItem getAgregar() {
+        return agregar;
+    }
+
+    public void setAgregar(MenuItem agregar) {
+        this.agregar = agregar;
     }
 }
