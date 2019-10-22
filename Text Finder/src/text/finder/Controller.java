@@ -8,6 +8,8 @@ package text.finder;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.StringTokenizer;
+
 import Logic.Ejecutar;
 import Logic.Singleton;
 import javafx.fxml.FXML;
@@ -50,8 +52,20 @@ public class Controller implements Initializable {
      */
     public void buscar (){
         resultados.getChildren().clear();
-        String palabra = txtIn.getText();
-        ejecutar.buscarPalabra(palabra,resultados);
+        if(txtIn.getText().contains(" ")){
+            String frase = txtIn.getText();
+            ejecutar.buscarFrase(frase,resultados);
+        }else {
+            String palabra = txtIn.getText();
+            ejecutar.buscarPalabra(palabra, resultados,true);
+        }
+    }
+    public void buscarporPalabras(){
+        resultados.getChildren().clear();
+        StringTokenizer tokenizer = new StringTokenizer(txtIn.getText(),",. );:(");
+        while(tokenizer.hasMoreElements()){
+            ejecutar.buscarPalabra(tokenizer.nextToken(),resultados,false);
+        }
     }
     /**
      * Metodo encargado de indizar los documentos .docx
