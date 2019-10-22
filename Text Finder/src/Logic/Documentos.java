@@ -94,6 +94,10 @@ public class Documentos {
         this.item = item;
     }
 
+    public void setArbolPalabras(ArbolBinarioBusqueda<Integer> arbolPalabras) {
+        this.arbolPalabras = arbolPalabras;
+    }
+
     public String getNombreOrg() {
         return nombreOrg;
     }

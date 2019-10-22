@@ -8,17 +8,11 @@ package text.finder;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import Logic.Biblioteca;
 import Logic.Ejecutar;
 import Logic.Singleton;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -47,7 +41,7 @@ public class Controller implements Initializable {
         TreeItem<String> root = new TreeItem<>("Libreria");
         lib.setRoot(root);
         this.path = "C:\\Users\\sebas\\Desktop\\git\\Datos1_Proyecto2\\biblioteca";
-        this.ejecutar = Singleton.getInstancia(lib.getRoot(),btnEliminar,btnEliminar);
+        this.ejecutar = Singleton.getInstancia(lib.getRoot(),btnModificar,btnEliminar);
         lib.setShowRoot(true);
     }
 

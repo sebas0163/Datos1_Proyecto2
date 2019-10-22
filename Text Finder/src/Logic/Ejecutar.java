@@ -21,7 +21,11 @@ import javafx.stage.Stage;
 import palabras.Palabra;
 
 import javax.print.Doc;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.util.StringTokenizer;
 
 /**
  * Clase encargada de manejar la logica del programa.
@@ -82,6 +86,7 @@ public class Ejecutar {
         Documentos doc = manejoArchivos.indizarDocx(url, nombre,rutaBib);
         doc.setItem(item);
         opcion2.setOnAction(eliminarAct);
+        opcion1.setOnAction(modificarDoc);
         doc.setAgregar(opcion1);
         doc.setEliminar(opcion2);
         biblioteca.agregarDocumento(doc);
@@ -97,6 +102,7 @@ public class Ejecutar {
     public void addTxt(String url,String nombre, TreeItem item,String rutaBib,MenuItem opcion1,MenuItem opcion2,MenuButton modificar,MenuButton eliminar){
         Documentos doc = manejoArchivos.indizarTxt(url,nombre,rutaBib);
         opcion2.setOnAction(eliminarAct);
+        opcion1.setOnAction(modificarDoc);
         doc.setEliminar(opcion2);
         doc.setAgregar(opcion1);
         doc.setItem(item);
@@ -113,6 +119,7 @@ public class Ejecutar {
     public void addPdf(String url, String nombre, TreeItem item,String rutaBib,MenuItem opcion1,MenuItem opcion2,MenuButton modificar,MenuButton eliminar){
         Documentos doc = manejoArchivos.indizarPdf(url,nombre,rutaBib);
         opcion2.setOnAction(eliminarAct);
+        opcion2.setOnAction(modificarDoc);
         doc.setAgregar(opcion1);
         doc.setEliminar(opcion2);
         doc.setItem(item);
@@ -216,6 +223,7 @@ public class Ejecutar {
      * @param doc instancia del dcoumento que contiene la informacion del archivo.
      */
     public void eliminarDoc(Documentos doc){
+        listaResultado.reset();
         DoubleEndedLinkedList listadocs = biblioteca.getListaDocumentos();
         File file = new File(doc.getRutaTxt());
         file.delete();
@@ -231,6 +239,8 @@ public class Ejecutar {
      * @param doc instancia del dcoumento que contiene la informacion de la carpeta.
      */
     public void eliminarCarpeta(Documentos doc){
+        listaResultado.reset();
+
         DoubleEndedLinkedList listaDocs = biblioteca.getListaDocumentos();
         File file = new File(doc.getRutaTxt());
         for(File fichero: file.listFiles()){
@@ -293,6 +303,28 @@ public class Ejecutar {
         }
         return resultado.getNombre();
     }
+    public void recalcularArbol(Documentos doc){
+        DoubleEndedLinkedList<String> palabras = new DoubleEndedLinkedList<>();
+        try {
+            BufferedReader bf = new BufferedReader(new FileReader(doc.getRutaTxt()));
+            String lineaTexto;
+            while ((lineaTexto = bf.readLine())!=null) {
+                StringTokenizer token = new StringTokenizer(lineaTexto, ",. );:(");
+                while (token.hasMoreElements()) {
+                    palabras.add(token.nextToken());
+                }
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        ArbolBinarioBusqueda arbol = new ArbolBinarioBusqueda<>();
+        Nodo temp = palabras.getHead();
+        while (temp != null){
+            arbol.agregar((String) temp.getDato());
+            temp = temp.getNext();
+        }
+        doc.setArbolPalabras(arbol);
+    }
 
     /**
      * Metodo encargado de controlar los eventos del mouse.
@@ -349,9 +381,41 @@ public class Ejecutar {
             }
         }
     };
+    EventHandler<ActionEvent> modificarDoc = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            MenuItem item = (MenuItem) event.getSource();
+            Nodo temp = biblioteca.getListaDocumentos().getHead();
+            while(temp != null){
+                Documentos doc = (Documentos) temp.getDato();
+                if(doc.getAgregar().equals(item)){
+                    path = doc.getRutaTxt();
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader();
+                        fxmlLoader.setLocation(getClass().getResource("ModificarText.fxml"));
+                        Scene scene = new Scene(fxmlLoader.load());
+                        Stage stage = new Stage();
+                        stage.setScene(scene);
+                        stage.setTitle("Modificar Texto");
+                        stage.setResizable(false);
+                        stage.show();
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                    break;
+                }else{
+                    temp = temp.getNext();
+                }
+            }
+        }
+    };
 
     public String getPath() {
         return path;
+    }
+
+    public Biblioteca getBiblioteca() {
+        return biblioteca;
     }
 
     public String getBuscado() {
