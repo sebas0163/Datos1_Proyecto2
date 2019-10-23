@@ -55,6 +55,7 @@ public class Ejecutar {
     public void quickSort(){        
         DoubleEndedLinkedList<Documentos> list=biblioteca.getListaDocumentos();
         quickSort(list,0,list.len()-1);  
+        biblioteca.setListaDocumentos(list);
     }
     /**
      * Metodo metodo que define donde se debe de partir la parte de la lista que se esta ordenando
