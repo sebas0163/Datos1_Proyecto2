@@ -51,7 +51,8 @@ public class Ejecutar {
         this.raiz = raiz;
         this.path = "";
     }
-       public void quickSort(){        
+    
+    public void quickSort(){        
         DoubleEndedLinkedList<Documentos> list=biblioteca.getListaDocumentos();
         quickSort(list,0,list.len()-1);  
     }
@@ -172,15 +173,35 @@ public class Ejecutar {
      * @param list lista que se desea ordenar
      * @return lista ordenada 
      */
-    private DoubleEndedLinkedList radixSort(){ 
+    public void radixSort(){ 
         DoubleEndedLinkedList<Documentos> list=biblioteca.getListaDocumentos();
         double m = getMax(list); 
         for (int exponente = 1; m/exponente > 0; exponente *= 10) 
             list=radixSort(list,list.len(), exponente);
-        return list;
+        biblioteca.setListaDocumentos(list);
         
     } 
-
+    
+    public void bubble(){
+        DoubleEndedLinkedList<Documentos> list=biblioteca.getListaDocumentos();
+        biblioteca.setListaDocumentos(bubble(0,list));
+    }
+     private DoubleEndedLinkedList bubble(int inicial,DoubleEndedLinkedList list){
+        DoubleEndedLinkedList<Documentos> lista=list;
+        int swaps=0;
+        for(int i=inicial;i<lista.len()-1;i++){
+            if (palabra.strToInt(lista.getNodo(i).getDato().getFecha())>palabra.strToInt(lista.getNodo(i+1).getDato().getFecha())){
+                Documentos temp= lista.getNodo(i).getDato();
+                lista.getNodo(i).setDato(lista.getNodo(i+1).getDato());
+                lista.getNodo(i+1).setDato(temp);
+                swaps++;
+            }
+        }
+        if (swaps>1){
+            return bubble(inicial++,lista);
+        }
+    return lista;   
+    }
     /**
      * Metodo que busca la palabra en el arbol y envia el nodo que la posee con todos sus datos al metodo que los trabaja.
      * @param buscado palabra que se desea buscar en el arbol.
