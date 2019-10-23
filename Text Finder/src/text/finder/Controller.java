@@ -121,6 +121,7 @@ public class Controller implements Initializable {
      */
     public void ordenarNombre(){
         System.out.println("Se ordenó usando quickSort");
+        ejecutar.quickSort();
     }
     /**
      * Ordena los resultados de las apariciones por tamaño usando RadixSort
