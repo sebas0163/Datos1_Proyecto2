@@ -37,6 +37,59 @@ public class Ejecutar {
     private DoubleEndedLinkedList<Resultado> listaResultado;
     private TreeItem raiz;
 
+    public void quickSort(){        
+        DoubleEndedLinkedList<Documentos> list=biblioteca.getListaDocumentos();
+        quickSort(list,0,list.len()-1);  
+    }
+    /**
+     * Metodo metodo que define donde se debe de partir la parte de la lista que se esta ordenando
+     * @param list lista que se esta ordenando 
+     * @param low indice menor de la parte que se esta ordenando 
+     * @param high indice mayor de la parte que se esta ordenando 
+     * @return indice en el cual se debe de partir la lista 
+     */
+    private static int quickaux(DoubleEndedLinkedList<Integer> list, int low, int high){
+        
+        int pivot = list.getNodo(high).getDato();  
+        int i = (low-1); // index of smaller element 
+        for (int j=low; j<high; j++) 
+        { 
+            // If current element is smaller than the pivot 
+            if (list.getNodo(j).getDato() < pivot) 
+            { 
+                i++; 
+  
+                // swap arr[i] and arr[j] 
+                int temp = list.getNodo(i).getDato(); 
+                list.getNodo(i).setDato(list.getNodo(j).getDato()); 
+                list.getNodo(j).setDato(temp); 
+            } 
+        } 
+  
+        // swap arr[i+1] and arr[high] (or pivot) 
+        int temp = list.getNodo(i+1).getDato(); 
+        list.getNodo(i+1).setDato(list.getNodo(high).getDato());
+        list.getNodo(high).setDato(temp);
+         
+  
+        return i+1; 
+    } 
+  
+    /**
+     * Metodo que va a ordenar la lista
+     * @param list lista a ordenar 
+     * @param low 
+     * @param high 
+     */
+    private static void quickSort(DoubleEndedLinkedList<Integer> list, int low, int high){
+        if (low < high){ 
+            int pi = quickaux(list, low, high); 
+            quickSort(list, low, pi-1); 
+            quickSort(list, pi+1, high); 
+        } 
+    } 
+    
+    
     /**
      * Metodo constructor de la clase.
      */
