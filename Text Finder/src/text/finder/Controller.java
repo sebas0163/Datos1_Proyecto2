@@ -128,6 +128,7 @@ public class Controller implements Initializable {
      */
     public void ordenarTamaño(){
         System.out.println("Se ordenó usando RadixSort");
+        ejecutar.radixSort();
     }
     /**
      * Ordena los resultados de las apariciones por Fecha usando BubbleSort
