@@ -208,22 +208,24 @@ public class DoubleEndedLinkedList<T>{
         if (pos==0){
             removeFirst();
         }
-        if (pos>lenn){
+        else if (pos==lenn){
             System.out.println("indice inexistente");
             return;
+        }else {
+            int cont = 1;
+            Nodo<T> aux = this.head;
+            while (cont < pos) {
+                cont++;
+                aux = aux.getNext();
+            }
+            if (aux.getNext().getNext() == this.tile) {
+                aux.setNext(null);
+                tile = aux;
+                return;
+            }
+
+            aux.setNext(aux.getNext().getNext());
         }
-        int cont=1;
-        Nodo<T> aux=this.head;
-        while (cont<pos){
-            cont++;
-            aux= aux.getNext();
-        }
-        if (aux.getNext().getNext()==this.tile){
-            aux.setNext(null);
-            tile=aux;
-            return;
-        }
-        aux.setNext(aux.getNext().getNext());
     }
 
     public int buscarPos(T dato){
@@ -250,5 +252,8 @@ public class DoubleEndedLinkedList<T>{
 
     public Nodo<T> getHead() {
         return head;
+    }
+    public void reset(){
+        this.head = null;
     }
 }

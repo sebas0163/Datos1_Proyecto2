@@ -14,28 +14,18 @@ import text.finder.*;
  */
 public class Palabra {
     private String palabra;
-    private int valor;
+    private double valor;
     private int apariciones;
 
     public Palabra(String palabra){
         this.palabra=palabra;
         this.valor= strToInt(palabra);
-        this.apariciones=apariciones;
+        this.apariciones=1;
         
     }    
     
 
-    public String getPalabra() {
-        return palabra;
-    }
-
-    public int getValor() {
-        return valor;
-    }
-    public void addApariciones(){
-        this.apariciones++;
-    }
-    public int strToInt(String a){
+    public double strToInt(String a){
         a=a.toUpperCase();
         String palabra="";
         int len=a.length();
@@ -43,7 +33,20 @@ public class Palabra {
         for (int i=0;i<len;i++){
             palabra+=Integer.toString(a.codePointAt(i));
         }
-        return Integer.parseInt(palabra);
+        return Double.parseDouble(palabra);
     }
 
+    public int getApariciones() {
+        return apariciones;
+    }
+    public String getPalabra() {
+        return palabra;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+    public void addApariciones(){
+        this.apariciones++;
+    }
 }

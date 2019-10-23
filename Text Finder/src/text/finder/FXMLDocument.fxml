@@ -6,30 +6,33 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 
+<?import javafx.scene.layout.VBox?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="790.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="text.finder.Controller">
    <children>
       <SplitPane dividerPositions="0.1687211093990755" prefHeight="790.0" prefWidth="1300.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <SplitPane dividerPositions="0.12430238457635719" orientation="VERTICAL" prefHeight="790.0" prefWidth="216.0">
+                  <SplitPane dividerPositions="0.1306443429731101" orientation="VERTICAL" prefHeight="790.0" prefWidth="216.0">
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: #def5d7;">
                            <children>
-                              <MenuButton layoutX="14.0" layoutY="34.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="76.0" text="Agregar">
+                              <MenuButton layoutX="10.0" layoutY="14.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="105.0" text="Agregar">
                                 <items>
-                                    <MenuItem mnemonicParsing="false" text="DOCX" />
-                                  <MenuItem mnemonicParsing="false" text="PDF" />
-                                  <MenuItem mnemonicParsing="false" text="TXT" />
-                                    <MenuItem mnemonicParsing="false" text="Carpeta" />
+                                    <MenuItem mnemonicParsing="false" onAction="#agregarDocx" text="DOCX" />
+                                  <MenuItem mnemonicParsing="false" onAction="#agragarPdf" text="PDF" />
+                                  <MenuItem mnemonicParsing="false" onAction="#agregarTxt" text="TXT" />
+                                    <MenuItem mnemonicParsing="false" onAction="#agregarCarpeta" text="Carpeta" />
                                 </items>
                               </MenuButton>
-                              <Button layoutX="130.0" layoutY="34.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="64.0" text="Borrar" />
+                              <MenuButton fx:id="btnModificar" layoutX="13.0" layoutY="60.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="99.0" text="Modificar" />
+                              <MenuButton fx:id="btnEliminar" layoutX="125.0" layoutY="14.0" mnemonicParsing="false" text="Eliminar" />
                            </children>
                         </AnchorPane>
-                      <AnchorPane fx:id="lib" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: #e6e6e6;" />
+                        <TreeView fx:id="lib" editable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #e6e6e6;" />
                     </items>
                   </SplitPane>
                </children></AnchorPane>
@@ -41,20 +44,21 @@
                            <children>
                               <TextField fx:id="txtIn" layoutX="24.0" layoutY="18.0" prefHeight="26.0" prefWidth="704.0" promptText="Buscar palabra" />
                               <Button fx:id="btnBuscar" layoutX="752.0" layoutY="18.0" mnemonicParsing="false" onAction="#buscar" text="Buscar" />
-                              <MenuButton layoutX="842.0" layoutY="18.0" mnemonicParsing="false" text="Ordenar">
+                              <MenuButton layoutX="961.0" layoutY="18.0" mnemonicParsing="false" text="Ordenar">
                                 <items>
                                   <MenuItem mnemonicParsing="false" onAction="#ordenarFecha" text="Fecha" />
                                   <MenuItem mnemonicParsing="false" onAction="#ordenarNombre" text="Nombre" />
                                   <MenuItem mnemonicParsing="false" onAction="#ordenarTamaño" text="Tamaño" />
                                 </items>
                               </MenuButton>
+                              <Button layoutX="845.0" layoutY="19.0" mnemonicParsing="false" text="Button" />
                            </children>
                         </AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                            <children>
                               <ScrollPane prefHeight="713.0" prefWidth="1076.0">
                                 <content>
-                                  <AnchorPane fx:id="resultados" minHeight="0.0" minWidth="0.0" prefHeight="713.0" prefWidth="1076.0" style="-fx-background-color: #fffbc9;" />
+                                  <VBox fx:id="resultados" minHeight="0.0" minWidth="0.0" prefHeight="713.0" prefWidth="1076.0" style="-fx-background-color: #fffbc9;" />
                                 </content>
                               </ScrollPane>
                            </children>

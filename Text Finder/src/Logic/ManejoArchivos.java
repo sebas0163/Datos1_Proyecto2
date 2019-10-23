@@ -3,10 +3,16 @@ package Logic;
 import EstructurasDatos.ArbolBinarioBusqueda;
 import EstructurasDatos.DoubleEndedLinkedList;
 import EstructurasDatos.Nodo;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
-
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.StringTokenizer;
 
 /**
@@ -20,28 +26,108 @@ public class ManejoArchivos {
         palabras = new DoubleEndedLinkedList<>();
     }
 
-    public Documentos indizarDoc(String url, String nombre){
+    /**
+     * Metodo encargado de indizar los documentos docx.
+     * @param url direccion del archivo.
+     * @param nombre nombre del archivo
+     * @return instancia del de la clase documento con los datos del archivo.
+     */
+    public Documentos indizarDocx(String url, String nombre,String ruta){
         try {
             XWPFDocument doc = new XWPFDocument(new FileInputStream(url));
             XWPFWordExtractor extractor = new XWPFWordExtractor(doc);
-            System.out.println(extractor.getText());
-            File nuevoDoc = new File(nombre);
+            File nuevoDoc = new File(ruta,nombre+".txt");
             nuevoDoc.createNewFile();
-            while(extractor.getText()!= null){
-                escribirTxt(nuevoDoc,extractor.getText());
-            }
+            String fecha = obtenerFecha(nuevoDoc);
+            escribirTxt(nuevoDoc,extractor.getText());
             leerArchivo(nuevoDoc.getPath());
-            Documentos documento = new Documentos(url,nuevoDoc.getPath(),arbolDoc());
+            Documentos documento = new Documentos(url,nuevoDoc.getPath(),arbolDoc(),nuevoDoc.getName(),nuevoDoc.length(),fecha,nombre);
+            palabras.reset();
             return documento;
         }catch (Exception e){
             System.out.println(e);
         }
         return null;
     }
+
+    /**
+     * Metodo encargado de indizar los documentos de formato pdf.
+     * @param url direccion del archivo.
+     * @param nombre nombre del archivo
+     * @return instancia del de la clase documento con los datos del archivo.
+     */
+    public Documentos indizarPdf(String url, String nombre,String ruta){
+        try{
+            PDDocument doc = new PDDocument().load(new File(url));
+            PDFTextStripper stripper = new PDFTextStripper();
+            File file = new File(ruta,nombre+".txt");
+            file.createNewFile();
+            String fecha = obtenerFecha(file);
+            escribirTxt(file,stripper.getText(doc));
+            leerArchivo(file.getPath());
+            System.out.println(file.length());
+            Documentos documento = new Documentos(url,file.getPath(),arbolDoc(),file.getName(),file.length(),fecha,nombre);
+            palabras.reset();
+            doc.close();
+            return documento;
+
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    /**
+     * Metodo encagado de indizar los archivos de formato txt.
+     * @param url direccion del archivo.
+     * @param nombre nombre del archivo
+     * @return instancia del de la clase documento con los datos del archivo.
+     */
+    public Documentos indizarTxt(String url, String nombre,String ruta){
+        try{
+            File nuevoDoc = new File(ruta,nombre);
+            nuevoDoc.createNewFile();
+            String fecha = obtenerFecha(nuevoDoc);
+            leerArchivo(nuevoDoc.getPath());
+            Documentos documento = new Documentos(url,nuevoDoc.getPath(),arbolDoc(),nuevoDoc.getName(),nuevoDoc.length(),fecha,nombre);
+            palabras.reset();
+            return documento;
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    /**
+     * Método encargado de obtener los datos de creacion del documento
+     * @param file
+     * @return
+     */
+    private String obtenerFecha(File file){
+        BasicFileAttributes attrs;
+        try{
+            attrs = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
+            FileTime time = attrs.creationTime();
+            String pattern = "yyyy-MM-dd HH:mm:ss";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+            String formatted = simpleDateFormat.format( new Date( time.toMillis() ) );
+            return formatted;
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    /**
+     * Metodo encargado de crear archivos txt.
+     * @param file archivo txt creado.
+     * @param texto texto que se le va a annadir al archivo.
+     */
     private void escribirTxt(File file, String texto){
         try {
             PrintWriter escribir = new PrintWriter(file);
             escribir.println(texto);
+            escribir.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -96,6 +182,7 @@ public class ManejoArchivos {
             while((lineaTexto = bf.readLine()) != null){
                 separarPalabras(lineaTexto);
             }
+            bf.close();
 
         }catch (Exception e){
 
@@ -107,13 +194,18 @@ public class ManejoArchivos {
      * @param lineaTexto linea de texto que se quiere separar
      */
     private void separarPalabras(String lineaTexto){
-        StringTokenizer token = new StringTokenizer(lineaTexto,",.  ");
+        StringTokenizer token = new StringTokenizer(lineaTexto,",. );:(");
         while (token.hasMoreElements()){
             palabras.add(token.nextToken());
         }
     }
+
+    /**
+     * Método que agrega las palabras del documento al arbol.
+     * @return
+     */
     private ArbolBinarioBusqueda arbolDoc(){
-        ArbolBinarioBusqueda<Integer> arbol = new ArbolBinarioBusqueda<>();
+        ArbolBinarioBusqueda arbol = new ArbolBinarioBusqueda<>();
         Nodo temp = palabras.getHead();
         while (temp != null){
             arbol.agregar((String) temp.getDato());
