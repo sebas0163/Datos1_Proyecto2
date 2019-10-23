@@ -36,6 +36,7 @@ public class Ejecutar {
     private String buscado;
     private DoubleEndedLinkedList<Resultado> listaResultado;
     private TreeItem raiz;
+    private Palabra palabra;
 
     public void quickSort(){        
         DoubleEndedLinkedList<Documentos> list=biblioteca.getListaDocumentos();
@@ -48,26 +49,26 @@ public class Ejecutar {
      * @param high indice mayor de la parte que se esta ordenando 
      * @return indice en el cual se debe de partir la lista 
      */
-    private static int quickaux(DoubleEndedLinkedList<Integer> list, int low, int high){
+    private int quickaux(DoubleEndedLinkedList<Documentos> list, int low, int high){
         
-        int pivot = list.getNodo(high).getDato();  
+        double pivot = palabra.strToInt(list.getNodo(high).getDato().getNombre());  
         int i = (low-1); // index of smaller element 
         for (int j=low; j<high; j++) 
         { 
             // If current element is smaller than the pivot 
-            if (list.getNodo(j).getDato() < pivot) 
+            if (palabra.strToInt(list.getNodo(j).getDato().getNombre()) < pivot) 
             { 
                 i++; 
   
                 // swap arr[i] and arr[j] 
-                int temp = list.getNodo(i).getDato(); 
+                Documentos temp = list.getNodo(i).getDato(); 
                 list.getNodo(i).setDato(list.getNodo(j).getDato()); 
                 list.getNodo(j).setDato(temp); 
             } 
         } 
   
         // swap arr[i+1] and arr[high] (or pivot) 
-        int temp = list.getNodo(i+1).getDato(); 
+        Documentos temp = list.getNodo(i+1).getDato(); 
         list.getNodo(i+1).setDato(list.getNodo(high).getDato());
         list.getNodo(high).setDato(temp);
          
@@ -81,7 +82,7 @@ public class Ejecutar {
      * @param low 
      * @param high 
      */
-    private static void quickSort(DoubleEndedLinkedList<Integer> list, int low, int high){
+    private void quickSort(DoubleEndedLinkedList<Documentos> list, int low, int high){
         if (low < high){ 
             int pi = quickaux(list, low, high); 
             quickSort(list, low, pi-1); 
