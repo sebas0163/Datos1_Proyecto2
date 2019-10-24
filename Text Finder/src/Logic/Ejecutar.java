@@ -52,6 +52,16 @@ public class Ejecutar {
         this.raiz = raiz;
         this.path = "";
     }
+    public double strToInt(String a){
+        a=a.toUpperCase();
+        String palabra="";
+        int len=a.length();
+        //len--;
+        for (int i=0;i<len;i++){
+            palabra+=Integer.toString(a.codePointAt(i));
+        }
+        return Double.parseDouble(palabra);
+    }
     
     public void quickSort(){        
         DoubleEndedLinkedList<Documentos> list=biblioteca.getListaDocumentos();
@@ -66,13 +76,12 @@ public class Ejecutar {
      * @return indice en el cual se debe de partir la lista 
      */
     private int quickaux(DoubleEndedLinkedList<Documentos> list, int low, int high){
-        
-        double pivot = palabra.strToInt(list.getNodo(high).getDato().getNombre());  
+        double pivot = strToInt(list.getNodo(high).getDato().getNombre()); 
         int i = (low-1); // index of smaller element 
         for (int j=low; j<high; j++) 
         { 
             // If current element is smaller than the pivot 
-            if (palabra.strToInt(list.getNodo(j).getDato().getNombre()) < pivot) 
+            if (strToInt(list.getNodo(j).getDato().getNombre()) < pivot) 
             { 
                 i++; 
   
@@ -100,7 +109,7 @@ public class Ejecutar {
      */
     private void quickSort(DoubleEndedLinkedList<Documentos> list, int low, int high){
         if (low < high){ 
-            int pi = quickaux(list, low, high); 
+            int pi = (int) quickaux(list, low, high); 
             quickSort(list, low, pi-1); 
             quickSort(list, pi+1, high); 
         } 
@@ -192,7 +201,7 @@ public class Ejecutar {
         DoubleEndedLinkedList<Documentos> lista=list;
         int swaps=0;
         for(int i=inicial;i<lista.len()-1;i++){
-            if (palabra.strToInt(lista.getNodo(i).getDato().getFecha())>palabra.strToInt(lista.getNodo(i+1).getDato().getFecha())){
+            if (strToInt(lista.getNodo(i).getDato().getFecha())>strToInt(lista.getNodo(i+1).getDato().getFecha())){
                 Documentos temp= lista.getNodo(i).getDato();
                 lista.getNodo(i).setDato(lista.getNodo(i+1).getDato());
                 lista.getNodo(i+1).setDato(temp);

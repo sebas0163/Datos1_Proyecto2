@@ -143,5 +143,6 @@ public class Controller implements Initializable {
      */
     public void ordenarFecha(){
         System.out.println("Se ordenó usando BubbleSort");
+        ejecutar.bubble();
     }
 }
