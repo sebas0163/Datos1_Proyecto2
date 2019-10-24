@@ -37,7 +37,6 @@ public class Ejecutar {
     private String buscado;
     private DoubleEndedLinkedList<Resultado> listaResultado;
     private TreeItem raiz;
-    private Palabra palabra;
 
  
     /**

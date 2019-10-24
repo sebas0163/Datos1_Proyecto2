@@ -40,7 +40,6 @@ public class Documentos {
         this.ruta = ruta1;
         this.rutaTxt = ruta2;
         this.arbolPalabras = arbol;
-        ManejoArchivos lec=new ManejoArchivos();        
     }
 
     public String getRuta() {

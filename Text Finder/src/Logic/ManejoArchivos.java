@@ -38,7 +38,8 @@ public class ManejoArchivos {
             XWPFWordExtractor extractor = new XWPFWordExtractor(doc);
             File nuevoDoc = new File(ruta,nombre+".txt");
             nuevoDoc.createNewFile();
-            String fecha = obtenerFecha(nuevoDoc);
+            File file2 = new File(url);
+            String fecha = obtenerFecha(file2);
             escribirTxt(nuevoDoc,extractor.getText());
             leerArchivo(nuevoDoc.getPath());
             Documentos documento = new Documentos(url,nuevoDoc.getPath(),arbolDoc(),nuevoDoc.getName(),nuevoDoc.length(),fecha,nombre);
@@ -62,7 +63,8 @@ public class ManejoArchivos {
             PDFTextStripper stripper = new PDFTextStripper();
             File file = new File(ruta,nombre+".txt");
             file.createNewFile();
-            String fecha = obtenerFecha(file);
+            File file2 = new File(url);
+            String fecha = obtenerFecha(file2);
             escribirTxt(file,stripper.getText(doc));
             leerArchivo(file.getPath());
             System.out.println(file.length());
@@ -87,7 +89,8 @@ public class ManejoArchivos {
         try{
             File nuevoDoc = new File(ruta,nombre);
             nuevoDoc.createNewFile();
-            String fecha = obtenerFecha(nuevoDoc);
+            File file2 = new File(url);
+            String fecha = obtenerFecha(file2);
             leerArchivo(nuevoDoc.getPath());
             Documentos documento = new Documentos(url,nuevoDoc.getPath(),arbolDoc(),nuevoDoc.getName(),nuevoDoc.length(),fecha,nombre);
             palabras.reset();
