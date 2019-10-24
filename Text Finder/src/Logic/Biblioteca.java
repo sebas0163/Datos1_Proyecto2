@@ -41,4 +41,7 @@ public class Biblioteca {
     public DoubleEndedLinkedList<Documentos> getListaDocumentos() {
         return listaDocumentos;
     }
+    public void setListaDocumentos(DoubleEndedLinkedList<Documentos> list) {
+        this.listaDocumentos=list;
+    }
 }

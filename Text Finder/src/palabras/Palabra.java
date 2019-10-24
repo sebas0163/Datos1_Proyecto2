@@ -22,7 +22,8 @@ public class Palabra {
         this.valor= strToInt(palabra);
         this.apariciones=1;
         
-    }
+    }    
+    
 
     public double strToInt(String a){
         a=a.toUpperCase();

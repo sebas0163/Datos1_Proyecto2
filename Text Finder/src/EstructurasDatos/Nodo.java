@@ -14,6 +14,11 @@ public class Nodo <T> {
     public Nodo(){
         siguiente=null;        
     }
+
+    public void setDato(T dato) {
+        this.dato = dato;
+    }
+    
     /**
      * Método del constructor del Nodo con un dato
      * @param data

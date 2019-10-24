@@ -37,7 +37,9 @@ public class Ejecutar {
     private String buscado;
     private DoubleEndedLinkedList<Resultado> listaResultado;
     private TreeItem raiz;
+    private Palabra palabra;
 
+ 
     /**
      * Metodo constructor de la clase.
      */
@@ -50,7 +52,158 @@ public class Ejecutar {
         this.raiz = raiz;
         this.path = "";
     }
-
+    
+    public void quickSort(){        
+        DoubleEndedLinkedList<Documentos> list=biblioteca.getListaDocumentos();
+        quickSort(list,0,list.len()-1);  
+        biblioteca.setListaDocumentos(list);
+    }
+    /**
+     * Metodo metodo que define donde se debe de partir la parte de la lista que se esta ordenando
+     * @param list lista que se esta ordenando 
+     * @param low indice menor de la parte que se esta ordenando 
+     * @param high indice mayor de la parte que se esta ordenando 
+     * @return indice en el cual se debe de partir la lista 
+     */
+    private int quickaux(DoubleEndedLinkedList<Documentos> list, int low, int high){
+        
+        double pivot = palabra.strToInt(list.getNodo(high).getDato().getNombre());  
+        int i = (low-1); // index of smaller element 
+        for (int j=low; j<high; j++) 
+        { 
+            // If current element is smaller than the pivot 
+            if (palabra.strToInt(list.getNodo(j).getDato().getNombre()) < pivot) 
+            { 
+                i++; 
+  
+                // swap arr[i] and arr[j] 
+                Documentos temp = list.getNodo(i).getDato(); 
+                list.getNodo(i).setDato(list.getNodo(j).getDato()); 
+                list.getNodo(j).setDato(temp); 
+            } 
+        } 
+  
+        // swap arr[i+1] and arr[high] (or pivot) 
+        Documentos temp = list.getNodo(i+1).getDato(); 
+        list.getNodo(i+1).setDato(list.getNodo(high).getDato());
+        list.getNodo(high).setDato(temp);
+         
+  
+        return i+1; 
+    } 
+  
+    /**
+     * Metodo que va a ordenar la lista
+     * @param list lista a ordenar 
+     * @param low 
+     * @param high 
+     */
+    private void quickSort(DoubleEndedLinkedList<Documentos> list, int low, int high){
+        if (low < high){ 
+            int pi = quickaux(list, low, high); 
+            quickSort(list, low, pi-1); 
+            quickSort(list, pi+1, high); 
+        } 
+    } 
+    
+    
+    /**
+     * Metodo que obtiene el dato de mayor valor de la lista
+     * @param list lista donde se realiza la busqyeda
+     * @return el valor maximo encontrado
+     */
+    private static long getMax(DoubleEndedLinkedList<Documentos> list) 
+    {
+        Nodo<Documentos> aux=list.getNodo(0);
+        
+        long max=0;
+        while(aux!=null){
+            if (aux.getDato().getTamano()>max)
+                max=aux.getDato().getTamano();
+            aux=aux.getNext();
+        }
+    return max;
+    }   
+ 
+    /**
+     * Metodo que rellana una lista de un larno solicitado con un valor dado
+     * @param list lista que se desea rellenar
+     * @param lenn largo final de la lista
+     * @param relleno dato con el que se desea rellenar la lista
+     */
+    private static void filList(DoubleEndedLinkedList list,int lenn,int relleno){
+        int cont=0;
+        while(cont<lenn){
+            list.add(relleno);
+            cont++;
+        }        
+    }
+    /**
+     * funcion principal del radixSort la cual ordena la lista segun la posicion (unidades, decenas, centas...)
+     * @param list lista que se desea ordenar 
+     * @param n largo de la lista 
+     * @param exp exponente para obtener la posicion por la que se va a ordenar la lista
+     * @return lista ordenada segun la posicion dada 
+     */
+    private DoubleEndedLinkedList<Documentos> radixSort(DoubleEndedLinkedList<Documentos> list, int n, int exp) 
+    { 
+        DoubleEndedLinkedList<Documentos> lista=list;
+        DoubleEndedLinkedList<Integer> output=new DoubleEndedLinkedList();
+        filList(output,n,0);
+        
+        DoubleEndedLinkedList<Integer> count=new DoubleEndedLinkedList();
+        filList(count,10,0);
+        
+        for (int i = 0; i < n; i++) 
+            count.getNodo((int) ((list.getNodo(i).getDato().getTamano()/exp)%10)).setDato(count.getNodo((int) ((list.getNodo(i).getDato().getTamano()/exp)%10)).getDato()+1);   
+             
+        for (int i = 1; i < 10; i++) 
+            count.getNodo(i).setDato( count.getNodo(i).getDato()+ count.getNodo(i-1).getDato());
+             
+        
+        for (int i = n - 1; i >= 0; i--){
+            Documentos dat=list.getNodo(i).getDato();
+            Integer pos=count.getNodo((int) (list.getNodo(i).getDato().getTamano()/exp%10)).getDato()-1;
+            lista.getNodo(pos).setDato(dat); 
+            count.getNodo((int) (((list.getNodo(i).getDato().getTamano())/exp)%10)).setDato((count.getNodo((int) ((list.getNodo(i).getDato().getTamano())/exp%10)).getDato())-1);
+        }    
+        return lista;
+    } 
+  
+    /**
+     * Funcion que llama a la funcion principal del radixsort
+     * @param list lista que se desea ordenar
+     * @return lista ordenada 
+     */
+    public void radixSort(){ 
+        DoubleEndedLinkedList<Documentos> list=biblioteca.getListaDocumentos();
+        double m = getMax(list); 
+        for (int exponente = 1; m/exponente > 0; exponente *= 10) 
+            list=radixSort(list,list.len(), exponente);
+        biblioteca.setListaDocumentos(list);
+        
+    } 
+    
+    public void bubble(){
+        DoubleEndedLinkedList<Documentos> list=biblioteca.getListaDocumentos();
+        biblioteca.setListaDocumentos(bubble(0,list));
+    }
+     private DoubleEndedLinkedList bubble(int inicial,DoubleEndedLinkedList list){
+        DoubleEndedLinkedList<Documentos> lista=list;
+        int swaps=0;
+        for(int i=inicial;i<lista.len()-1;i++){
+            if (palabra.strToInt(lista.getNodo(i).getDato().getFecha())>palabra.strToInt(lista.getNodo(i+1).getDato().getFecha())){
+                Documentos temp= lista.getNodo(i).getDato();
+                lista.getNodo(i).setDato(lista.getNodo(i+1).getDato());
+                lista.getNodo(i+1).setDato(temp);
+                swaps++;
+            }
+        }
+        if (swaps>1){
+            return bubble(inicial++,lista);
+        }
+    return lista;   
+    }
     /**
      * Metodo que busca la palabra en el arbol y envia el nodo que la posee con todos sus datos al metodo que los trabaja.
      * @param buscado palabra que se desea buscar en el arbol.

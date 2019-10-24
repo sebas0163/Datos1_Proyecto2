@@ -78,6 +78,7 @@ public class ArbolBinarioBusqueda<T> {
             }
             else if(palabra.getValor()<aux.getDato().getValor()){
                 aux=aux.getNodoI();
+                continue;
             }
             else if(palabra.getValor()>aux.getDato().getValor()){
                 aux=aux.getNodoD();
