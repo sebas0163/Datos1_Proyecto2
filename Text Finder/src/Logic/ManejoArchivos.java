@@ -42,7 +42,7 @@ public class ManejoArchivos {
             String fecha = obtenerFecha(file2);
             escribirTxt(nuevoDoc,extractor.getText());
             leerArchivo(nuevoDoc.getPath());
-            Documentos documento = new Documentos(url,nuevoDoc.getPath(),arbolDoc(),nuevoDoc.getName(),nuevoDoc.length(),fecha,nombre);
+            Documentos documento = new Documentos(url,nuevoDoc.getPath(),arbolDoc(),nuevoDoc.getName(),file2.length(),fecha,nombre);
             palabras.reset();
             return documento;
         }catch (Exception e){
@@ -68,7 +68,7 @@ public class ManejoArchivos {
             escribirTxt(file,stripper.getText(doc));
             leerArchivo(file.getPath());
             System.out.println(file.length());
-            Documentos documento = new Documentos(url,file.getPath(),arbolDoc(),file.getName(),file.length(),fecha,nombre);
+            Documentos documento = new Documentos(url,file.getPath(),arbolDoc(),file.getName(),file2.length(),fecha,nombre);
             palabras.reset();
             doc.close();
             return documento;
@@ -92,7 +92,7 @@ public class ManejoArchivos {
             File file2 = new File(url);
             String fecha = obtenerFecha(file2);
             leerArchivo(nuevoDoc.getPath());
-            Documentos documento = new Documentos(url,nuevoDoc.getPath(),arbolDoc(),nuevoDoc.getName(),nuevoDoc.length(),fecha,nombre);
+            Documentos documento = new Documentos(url,nuevoDoc.getPath(),arbolDoc(),nuevoDoc.getName(),file2.length(),fecha,nombre);
             palabras.reset();
             return documento;
         }catch (Exception e){
