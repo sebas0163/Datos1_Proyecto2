@@ -8,8 +8,8 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
-
 <?import javafx.scene.layout.VBox?>
+
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="790.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="text.finder.Controller">
    <children>
       <SplitPane dividerPositions="0.1687211093990755" prefHeight="790.0" prefWidth="1300.0">
@@ -51,7 +51,7 @@
                                   <MenuItem mnemonicParsing="false" onAction="#ordenarTamaño" text="Tamaño" />
                                 </items>
                               </MenuButton>
-                              <Button layoutX="845.0" layoutY="19.0" mnemonicParsing="false" text="Button" />
+                              <Button layoutX="824.0" layoutY="18.0" mnemonicParsing="false" onAction="#buscarporPalabras" text="Buscar por palabra" />
                            </children>
                         </AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">

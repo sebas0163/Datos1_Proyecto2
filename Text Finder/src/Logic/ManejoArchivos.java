@@ -38,7 +38,8 @@ public class ManejoArchivos {
             XWPFWordExtractor extractor = new XWPFWordExtractor(doc);
             File nuevoDoc = new File(ruta,nombre+".txt");
             nuevoDoc.createNewFile();
-            String fecha = obtenerFecha(nuevoDoc);
+            File file2 = new File(url);
+            String fecha = obtenerFecha(file2);
             escribirTxt(nuevoDoc,extractor.getText());
             leerArchivo(nuevoDoc.getPath());
             Documentos documento = new Documentos(url,nuevoDoc.getPath(),arbolDoc(),nuevoDoc.getName(),nuevoDoc.length(),fecha,nombre);
@@ -62,7 +63,8 @@ public class ManejoArchivos {
             PDFTextStripper stripper = new PDFTextStripper();
             File file = new File(ruta,nombre+".txt");
             file.createNewFile();
-            String fecha = obtenerFecha(file);
+            File file2 = new File(url);
+            String fecha = obtenerFecha(file2);
             escribirTxt(file,stripper.getText(doc));
             leerArchivo(file.getPath());
             System.out.println(file.length());
@@ -87,7 +89,8 @@ public class ManejoArchivos {
         try{
             File nuevoDoc = new File(ruta,nombre);
             nuevoDoc.createNewFile();
-            String fecha = obtenerFecha(nuevoDoc);
+            File file2 = new File(url);
+            String fecha = obtenerFecha(file2);
             leerArchivo(nuevoDoc.getPath());
             Documentos documento = new Documentos(url,nuevoDoc.getPath(),arbolDoc(),nuevoDoc.getName(),nuevoDoc.length(),fecha,nombre);
             palabras.reset();
@@ -133,43 +136,6 @@ public class ManejoArchivos {
         }
 
     }
-    /**
-     * Metodo para abrir y un archivo txt y converirlo a una lista que contiene las lineas del archivo
-     * @param dir dirección del archivo txt que se va a leer
-     * @return devuelve DoubleEndedLinkedList que contiene las lineas del archivo
-     */
-    public DoubleEndedLinkedList<String> read(String dir) {
-        DoubleEndedLinkedList <String> listalineas= new DoubleEndedLinkedList<>(); 
-        BufferedReader bufferLectura = null;
-        
-        try {
-            // Abrir el txt en buffer de lectura
-            bufferLectura = new BufferedReader(new FileReader(dir));
-            // Leer una linea del archivo
-            String linea = bufferLectura.readLine();  
-            
-            while (linea != null) {
-                listalineas.add(linea);
-                // Volver a leer otra línea del fichero
-                linea = bufferLectura.readLine();
-            }
-        } 
-        catch (IOException e) {
-            e.printStackTrace();
-            }
-        finally {
-            // Cierro el buffer de lectura
-            if (bufferLectura != null) {
-                try {
-                    bufferLectura.close();
-                    } 
-                catch (IOException e) {
-                    e.printStackTrace();
-                    }
-                }   
-        }
-    return listalineas;
-    }        
 
     /**
      * Método encargado de leer el archivo linea por linea y mandar cada linea a un separador de palabras.
@@ -212,5 +178,42 @@ public class ManejoArchivos {
             temp = temp.getNext();
         }
         return arbol;
+    }
+    /**
+     * Metodo para abrir y un archivo txt y converirlo a una lista que contiene las lineas del archivo
+     * @param dir dirección del archivo txt que se va a leer
+     * @return devuelve DoubleEndedLinkedList que contiene las lineas del archivo
+     */
+    public DoubleEndedLinkedList<String> read(String dir) {
+        DoubleEndedLinkedList <String> listalineas= new DoubleEndedLinkedList<>();
+        BufferedReader bufferLectura = null;
+
+        try {
+            // Abrir el txt en buffer de lectura
+            bufferLectura = new BufferedReader(new FileReader(dir));
+            // Leer una linea del archivo
+            String linea = bufferLectura.readLine();
+
+            while (linea != null) {
+                listalineas.add(linea);
+                // Volver a leer otra línea del fichero
+                linea = bufferLectura.readLine();
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            // Cierro el buffer de lectura
+            if (bufferLectura != null) {
+                try {
+                    bufferLectura.close();
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return listalineas;
     }
 }
