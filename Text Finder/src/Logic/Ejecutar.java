@@ -194,13 +194,14 @@ public class Ejecutar {
     
     public void bubble(){
         DoubleEndedLinkedList<Documentos> list=biblioteca.getListaDocumentos();
-        biblioteca.setListaDocumentos(bubble(0,list));
+        list=bubble(0,list);
+        biblioteca.setListaDocumentos(list);
     }
-     private DoubleEndedLinkedList bubble(int inicial,DoubleEndedLinkedList list){
+    private DoubleEndedLinkedList bubble(int inicial,DoubleEndedLinkedList list){
         DoubleEndedLinkedList<Documentos> lista=list;
         int swaps=0;
         for(int i=inicial;i<lista.len()-1;i++){
-            if (strToInt(lista.getNodo(i).getDato().getFecha())>strToInt(lista.getNodo(i+1).getDato().getFecha())){
+            if ((int)strToInt(lista.getNodo(i).getDato().getFecha())>(int) strToInt(lista.getNodo(i+1).getDato().getFecha())){
                 Documentos temp= lista.getNodo(i).getDato();
                 lista.getNodo(i).setDato(lista.getNodo(i+1).getDato());
                 lista.getNodo(i+1).setDato(temp);
@@ -210,7 +211,7 @@ public class Ejecutar {
         if (swaps>1){
             return bubble(inicial++,lista);
         }
-    return lista;   
+        return lista;   
     }
     /**
      * Metodo que busca la palabra en el arbol y envia el nodo que la posee con todos sus datos al metodo que los trabaja.
