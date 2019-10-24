@@ -91,6 +91,7 @@ public class ManejoArchivos {
             nuevoDoc.createNewFile();
             File file2 = new File(url);
             String fecha = obtenerFecha(file2);
+            leerArchivo(url,nuevoDoc);
             leerArchivo(nuevoDoc.getPath());
             Documentos documento = new Documentos(url,nuevoDoc.getPath(),arbolDoc(),nuevoDoc.getName(),file2.length(),fecha,nombre);
             palabras.reset();
@@ -148,6 +149,26 @@ public class ManejoArchivos {
             while((lineaTexto = bf.readLine()) != null){
                 separarPalabras(lineaTexto);
             }
+            bf.close();
+
+        }catch (Exception e){
+
+        }
+    }
+    /**
+     * Método encargado de leer el archivo linea por linea y mandar cada linea a un separador de palabras.
+     * @param direccion dirección de en que lugar se encuentra el archivo que se desea leer.
+     */
+    public void leerArchivo(String direccion,File doc){
+        try{
+            BufferedReader bf = new BufferedReader(new FileReader(direccion));
+            String lineaTexto;
+            String texto = "";
+            while((lineaTexto = bf.readLine()) != null){
+                lineaTexto += "\n";
+                texto += lineaTexto;
+            }
+            escribirTxt(doc,texto);
             bf.close();
 
         }catch (Exception e){
