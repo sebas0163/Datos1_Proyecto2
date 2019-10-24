@@ -11,6 +11,7 @@ public class Resultado {
     private String nombre;
     private String[] text;
     private TextFlow flow;
+    private String buscado;
 
     /**
      * Metodo constructor de la clase.
@@ -18,10 +19,11 @@ public class Resultado {
      * @param text Cadena de texto que se muestra como resultado.
      * @param flow contenedor del texto que se muestra como resultado.
      */
-    public Resultado(String ruta,String[] text,TextFlow flow,String nombre){
+    public Resultado(String ruta,String[] text,TextFlow flow,String nombre,String buscado){
         this.ruta=ruta;
         this.text = text;
         this.flow = flow;
+        this.buscado = buscado;
         this.nombre = nombre;
     }
 
@@ -39,5 +41,9 @@ public class Resultado {
 
     public TextFlow getFlow() {
         return flow;
+    }
+
+    public String getBuscado() {
+        return buscado;
     }
 }

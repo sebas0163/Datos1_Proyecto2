@@ -21,7 +21,8 @@ import javafx.stage.Stage;
 import palabras.Palabra;
 
 import javax.print.Doc;
-import java.io.File;
+import java.io.*;
+import java.util.StringTokenizer;
 
 /**
  * Clase encargada de manejar la logica del programa.
@@ -54,9 +55,11 @@ public class Ejecutar {
      * Metodo que busca la palabra en el arbol y envia el nodo que la posee con todos sus datos al metodo que los trabaja.
      * @param buscado palabra que se desea buscar en el arbol.
      */
-    public void buscarPalabra(String buscado,VBox resultados){
+    public void buscarPalabra(String buscado,VBox resultados,boolean borrar){
         this.buscado = buscado;
-        listaResultado = new DoubleEndedLinkedList<>();
+        if (borrar) {
+            listaResultado = new DoubleEndedLinkedList<>();
+        }
         DoubleEndedLinkedList listaDocs = biblioteca.getListaDocumentos();
         Nodo temp = listaDocs.getHead();
         while(temp != null) {
@@ -64,7 +67,7 @@ public class Ejecutar {
             ArbolBinarioBusqueda arbol = documento.getArbolPalabras();
             if (arbol.buscar(buscado)!= null){
                 Palabra palabra = arbol.buscar(buscado);
-                mostrarApariciones(palabra, resultados,documento);
+                mostrarApariciones(palabra, resultados,documento,buscado);
                 temp = temp.getNext();
             }else {
                 System.out.println("La palabra no está en el documento");
@@ -82,6 +85,7 @@ public class Ejecutar {
         Documentos doc = manejoArchivos.indizarDocx(url, nombre,rutaBib);
         doc.setItem(item);
         opcion2.setOnAction(eliminarAct);
+        opcion1.setOnAction(modificarDoc);
         doc.setAgregar(opcion1);
         doc.setEliminar(opcion2);
         biblioteca.agregarDocumento(doc);
@@ -97,6 +101,7 @@ public class Ejecutar {
     public void addTxt(String url,String nombre, TreeItem item,String rutaBib,MenuItem opcion1,MenuItem opcion2,MenuButton modificar,MenuButton eliminar){
         Documentos doc = manejoArchivos.indizarTxt(url,nombre,rutaBib);
         opcion2.setOnAction(eliminarAct);
+        opcion1.setOnAction(modificarDoc);
         doc.setEliminar(opcion2);
         doc.setAgregar(opcion1);
         doc.setItem(item);
@@ -113,6 +118,7 @@ public class Ejecutar {
     public void addPdf(String url, String nombre, TreeItem item,String rutaBib,MenuItem opcion1,MenuItem opcion2,MenuButton modificar,MenuButton eliminar){
         Documentos doc = manejoArchivos.indizarPdf(url,nombre,rutaBib);
         opcion2.setOnAction(eliminarAct);
+        opcion2.setOnAction(modificarDoc);
         doc.setAgregar(opcion1);
         doc.setEliminar(opcion2);
         doc.setItem(item);
@@ -187,7 +193,7 @@ public class Ejecutar {
      * @param resultados Pantalla donde se van a mostrar los resultados de la busqueda
      * @param documento Documento con el cual se esta trabajando.
      */
-    private void mostrarApariciones(Palabra palabra, VBox resultados, Documentos documento){
+    private void mostrarApariciones(Palabra palabra, VBox resultados, Documentos documento,String busc){
         String [] texto = {palabra.getPalabra()+"\n",documento.getNombreOrg() +"     ",documento.getFecha()+"      ",String.valueOf(documento.getTamano())};
         int apariciones = palabra.getApariciones();
         int cont = 1;
@@ -204,10 +210,31 @@ public class Ejecutar {
                 text.setFont(new Font("Arial",18));
                 flow.getChildren().add(text);
             }
-            Resultado resultado = new Resultado(documento.getRutaTxt(),texto,flow,documento.getNombreOrg());
+            Resultado resultado = new Resultado(documento.getRutaTxt(),texto,flow,documento.getNombreOrg(),busc);
             listaResultado.add(resultado);
             resultados.getChildren().add(flow);
             cont += 1;
+        }
+    }
+    private void mostrarApariciones(DoubleEndedLinkedList texto,VBox resultados,Documentos documento,String busc){
+        Nodo temp = texto.getHead();
+        while(temp != null){
+            String text = (String) temp.getDato();
+            String [] textFinal = {text+"\n",documento.getNombreOrg()+"     ",documento.getFecha()+"        "+ String.valueOf(documento.getTamano())};
+            TextFlow flow = new TextFlow();
+            flow.setOnMouseClicked(click);
+            flow.setPrefWidth(1074);
+            Text text1 = new Text(textFinal[0]);
+            text1.setFont(new Font("Arial",18));
+            flow.getChildren().add(text1);
+            for(int i =1; i< textFinal.length; i++ ){
+                Text text2 = new Text(textFinal[i]);
+                text2.setFont(new Font("Arial",18));
+                flow.getChildren().add(text2);
+            }
+            Resultado resultado = new Resultado(documento.getRutaTxt(),textFinal,flow,documento.getNombreOrg(),busc);
+            listaResultado.add(resultado);
+            resultados.getChildren().add(flow);
         }
     }
 
@@ -216,6 +243,7 @@ public class Ejecutar {
      * @param doc instancia del dcoumento que contiene la informacion del archivo.
      */
     public void eliminarDoc(Documentos doc){
+        listaResultado.reset();
         DoubleEndedLinkedList listadocs = biblioteca.getListaDocumentos();
         File file = new File(doc.getRutaTxt());
         file.delete();
@@ -231,6 +259,8 @@ public class Ejecutar {
      * @param doc instancia del dcoumento que contiene la informacion de la carpeta.
      */
     public void eliminarCarpeta(Documentos doc){
+        listaResultado.reset();
+
         DoubleEndedLinkedList listaDocs = biblioteca.getListaDocumentos();
         File file = new File(doc.getRutaTxt());
         for(File fichero: file.listFiles()){
@@ -278,6 +308,7 @@ public class Ejecutar {
                 temp = temp.getNext();
             }
         }
+        buscado = resultado.getBuscado();
         return resultado.getRuta();
     }
     public String buscarNombre(String ruta){
@@ -292,6 +323,49 @@ public class Ejecutar {
             }
         }
         return resultado.getNombre();
+    }
+    public void recalcularArbol(Documentos doc){
+        DoubleEndedLinkedList<String> palabras = new DoubleEndedLinkedList<>();
+        try {
+            BufferedReader bf = new BufferedReader(new FileReader(doc.getRutaTxt()));
+            String lineaTexto;
+            while ((lineaTexto = bf.readLine())!=null) {
+                StringTokenizer token = new StringTokenizer(lineaTexto, ",. );:(");
+                while (token.hasMoreElements()) {
+                    palabras.add(token.nextToken());
+                }
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        ArbolBinarioBusqueda arbol = new ArbolBinarioBusqueda<>();
+        Nodo temp = palabras.getHead();
+        while (temp != null){
+            arbol.agregar((String) temp.getDato());
+            temp = temp.getNext();
+        }
+        doc.setArbolPalabras(arbol);
+    }
+    /**
+     * Metodo encargado de realizar la busqueda de una frase en el documento.
+     * @param frase frase que se desea buscar.
+     * @return
+     */
+    public void buscarFrase(String frase,VBox resultados){
+        DoubleEndedLinkedList listadocs= biblioteca.getListaDocumentos();
+        for(int j=0; j<listadocs.len();j++) {
+            Documentos doc = (Documentos)listadocs.getNodo(j).getDato();
+            DoubleEndedLinkedList listaTXT = manejoArchivos.read(doc.getRutaTxt());
+            DoubleEndedLinkedList list = new DoubleEndedLinkedList();
+            for (int i = 0; i < listaTXT.len(); i++) {
+                if (listaTXT.getNodo(i).getDato().toString().toUpperCase().contains(frase.toUpperCase())) {
+                    list.add(listaTXT.getNodo(i - 1).getDato().toString() + "\n" +
+                            listaTXT.getNodo(i).getDato().toString() + "\n" +
+                            listaTXT.getNodo(i + 1).getDato().toString());
+                }
+                mostrarApariciones(list,resultados,doc,frase);
+            }
+        }
     }
 
     /**
@@ -349,9 +423,41 @@ public class Ejecutar {
             }
         }
     };
+    EventHandler<ActionEvent> modificarDoc = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            MenuItem item = (MenuItem) event.getSource();
+            Nodo temp = biblioteca.getListaDocumentos().getHead();
+            while(temp != null){
+                Documentos doc = (Documentos) temp.getDato();
+                if(doc.getAgregar().equals(item)){
+                    path = doc.getRutaTxt();
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader();
+                        fxmlLoader.setLocation(getClass().getResource("ModificarText.fxml"));
+                        Scene scene = new Scene(fxmlLoader.load());
+                        Stage stage = new Stage();
+                        stage.setScene(scene);
+                        stage.setTitle("Modificar Texto");
+                        stage.setResizable(false);
+                        stage.show();
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                    break;
+                }else{
+                    temp = temp.getNext();
+                }
+            }
+        }
+    };
 
     public String getPath() {
         return path;
+    }
+
+    public Biblioteca getBiblioteca() {
+        return biblioteca;
     }
 
     public String getBuscado() {

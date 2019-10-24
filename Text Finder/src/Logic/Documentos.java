@@ -55,24 +55,6 @@ public class Documentos {
         return rutaTxt;
     }
 
-    /**
-     * Metodo encargado de realizar la busqueda de una frase en el documento.
-     * @param frase frase que se desea buscar.
-     * @return
-     */
-    public DoubleEndedLinkedList buscarFrase(String frase){
-        ManejoArchivos lec=new ManejoArchivos();
-        DoubleEndedLinkedList listaTXT=lec.read(rutaTxt);;
-        DoubleEndedLinkedList list= new DoubleEndedLinkedList();
-        for (int i=0;i<listaTXT.len();i++){
-            if (listaTXT.getNodo(i).getDato().toString().toUpperCase().contains(frase.toUpperCase())){
-                list.add(listaTXT.getNodo(i-1).getDato().toString()+"\n"+
-                         listaTXT.getNodo(i).getDato().toString()+"\n"+
-                         listaTXT.getNodo(i+1).getDato().toString());  
-            }
-        }
-        return list;
-    }
 
     public String getNombre() {
         return nombre;
@@ -92,6 +74,10 @@ public class Documentos {
 
     public void setItem(TreeItem item) {
         this.item = item;
+    }
+
+    public void setArbolPalabras(ArbolBinarioBusqueda<Integer> arbolPalabras) {
+        this.arbolPalabras = arbolPalabras;
     }
 
     public String getNombreOrg() {

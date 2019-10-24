@@ -1,5 +1,8 @@
 package text.finder;
 
+import EstructurasDatos.DoubleEndedLinkedList;
+import EstructurasDatos.Nodo;
+import Logic.Documentos;
 import Logic.Ejecutar;
 import Logic.Singleton;
 import javafx.fxml.FXML;
@@ -19,7 +22,6 @@ public class ModificarController implements Initializable {
     public void initialize(URL url, ResourceBundle rb){
         this.ejecutar = Singleton.getInstancia(null,null,null);
         this.area.setText(getText());
-        System.out.println(ejecutar.getPath());
     }
     private String getText(){
         String textoFinal = "";
@@ -28,7 +30,8 @@ public class ModificarController implements Initializable {
             BufferedReader bf = new BufferedReader(new FileReader(ruta));
             String lineaText;
             while((lineaText = bf.readLine())!= null){
-                textoFinal += lineaText + "\n";
+                lineaText += "\n";
+                textoFinal += lineaText;
             }
         }catch (Exception e){
             System.out.println(e);
@@ -41,8 +44,21 @@ public class ModificarController implements Initializable {
             bw.write("");
             bw.write(area.getText());
             bw.close();
+
         }catch (Exception e){
             System.out.println(e);
         }
+        DoubleEndedLinkedList listadocs = ejecutar.getBiblioteca().getListaDocumentos();
+        Nodo temp = listadocs.getHead();
+        Documentos doc = (Documentos) temp.getDato();
+        while(temp != null){
+            doc = (Documentos) temp.getDato();
+            if (doc.getRutaTxt().equals(ejecutar.getPath())){
+                break;
+            }else{
+                temp= temp.getNext();
+            }
+        }
+        ejecutar.recalcularArbol(doc);
     }
 }
