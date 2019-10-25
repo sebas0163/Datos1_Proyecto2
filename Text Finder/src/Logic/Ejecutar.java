@@ -51,7 +51,7 @@ public class Ejecutar {
         this.raiz = raiz;
         this.path = "";
     }
-    public double strToInt(String a){
+    private double strToInt(String a){
         a=a.toUpperCase();
         String palabra="";
         int len=a.length();
@@ -61,7 +61,9 @@ public class Ejecutar {
         }
         return Double.parseDouble(palabra);
     }
-    
+    /**
+     * metodo mediante el cual se llama al quicksort
+     */
     public void quickSort(){        
         DoubleEndedLinkedList<Documentos> list=biblioteca.getListaDocumentos();
         quickSort(list,0,list.len()-1);  
@@ -76,15 +78,13 @@ public class Ejecutar {
      */
     private int quickaux(DoubleEndedLinkedList<Documentos> list, int low, int high){
         double pivot = strToInt(list.getNodo(high).getDato().getNombre()); 
-        int i = (low-1); // index of smaller element 
+        int i = (low-1);  
         for (int j=low; j<high; j++) 
         { 
-            // If current element is smaller than the pivot 
+            
             if (strToInt(list.getNodo(j).getDato().getNombre()) < pivot) 
             { 
                 i++; 
-  
-                // swap arr[i] and arr[j] 
                 Documentos temp = list.getNodo(i).getDato(); 
                 list.getNodo(i).setDato(list.getNodo(j).getDato()); 
                 list.getNodo(j).setDato(temp); 
@@ -103,8 +103,8 @@ public class Ejecutar {
     /**
      * Metodo que va a ordenar la lista
      * @param list lista a ordenar 
-     * @param low 
-     * @param high 
+     * @param low indice izquierdo de la lista que se va a ordenar 
+     * @param high indice derecho de la lista que se va a ordenar 
      */
     private void quickSort(DoubleEndedLinkedList<Documentos> list, int low, int high){
         if (low < high){ 
@@ -139,13 +139,22 @@ public class Ejecutar {
      * @param lenn largo final de la lista
      * @param relleno dato con el que se desea rellenar la lista
      */
-    private static void filList(DoubleEndedLinkedList list,int lenn,int relleno){
+    private void filList(DoubleEndedLinkedList list,int lenn,int relleno){
         int cont=0;
         while(cont<lenn){
             list.add(relleno);
             cont++;
         }        
     }
+    private DoubleEndedLinkedList filListDoc(DoubleEndedLinkedList list,int lenn){
+        int cont=0;
+        while(cont<lenn){
+            list.add(null);
+            cont++;
+        } 
+        return list;
+    }
+    
     /**
      * funcion principal del radixSort la cual ordena la lista segun la posicion (unidades, decenas, centas...)
      * @param list lista que se desea ordenar 
@@ -153,9 +162,9 @@ public class Ejecutar {
      * @param exp exponente para obtener la posicion por la que se va a ordenar la lista
      * @return lista ordenada segun la posicion dada 
      */
-    private DoubleEndedLinkedList<Documentos> radixSort(DoubleEndedLinkedList<Documentos> list, int n, int exp) 
-    { 
-        DoubleEndedLinkedList<Documentos> lista=list;
+    private DoubleEndedLinkedList<Documentos> radixSort(DoubleEndedLinkedList<Documentos> list, int n, int exp){ 
+        DoubleEndedLinkedList<Documentos> lista=new DoubleEndedLinkedList();
+        lista =filListDoc(list,n);
         DoubleEndedLinkedList<Integer> count=new DoubleEndedLinkedList();
         filList(count,10,0);
         
@@ -163,12 +172,12 @@ public class Ejecutar {
             count.getNodo((int) ((list.getNodo(i).getDato().getTamano()/exp)%10)).setDato(count.getNodo((int) ((list.getNodo(i).getDato().getTamano()/exp)%10)).getDato()+1);   
              
         for (int i = 1; i < 10; i++) 
-            count.getNodo(i).setDato( count.getNodo(i).getDato()+ count.getNodo(i-1).getDato());
+            count.getNodo(i).setDato(count.getNodo(i).getDato()+ count.getNodo(i-1).getDato());
              
         
-        for (int i = n - 1; i >= 0; i--){
+        for (int i = n-1; i >= 0; i--){
             Documentos dat=list.getNodo(i).getDato();
-            int pos=count.getNodo((int) (list.getNodo(i).getDato().getTamano()/exp%10)).getDato()-1;
+            int pos=(count.getNodo((int) ((list.getNodo(i).getDato().getTamano()/exp)%10)).getDato())-1;
             lista.getNodo(pos).setDato(dat); 
             count.getNodo((int) (((list.getNodo(i).getDato().getTamano())/exp)%10)).setDato((count.getNodo((int) ((list.getNodo(i).getDato().getTamano())/exp%10)).getDato())-1);
         }   
@@ -177,9 +186,7 @@ public class Ejecutar {
     } 
   
     /**
-     * Funcion que llama a la funcion principal del radixsort
-     * @param list lista que se desea ordenar
-     * @return lista ordenada 
+     * Funcion que llama a la funcion principal del radixsort 
      */
     public void radixSort(){ 
         DoubleEndedLinkedList<Documentos> list=biblioteca.getListaDocumentos();
@@ -192,14 +199,20 @@ public class Ejecutar {
     
     public void bubble(){
         DoubleEndedLinkedList<Documentos> list=biblioteca.getListaDocumentos();
+        for (int i=0; i<list.len();i++){
+            System.out.println(list.getNodo(i).getDato().getNombre());
+            System.out.println((long)strToInt(list.getNodo(i).getDato().getFecha()));}
         list=bubble(0,list);
+        for (int i=0; i<list.len();i++){
+            System.out.println(list.getNodo(i).getDato().getNombre());
+            System.out.println((long)strToInt(list.getNodo(i).getDato().getFecha()));}
         biblioteca.setListaDocumentos(list);
     }
     private DoubleEndedLinkedList bubble(int inicial,DoubleEndedLinkedList list){
         DoubleEndedLinkedList<Documentos> lista=list;
         int swaps=0;
         for(int i=inicial;i<lista.len()-1;i++){
-            if ((int)strToInt(lista.getNodo(i).getDato().getFecha())>(int) strToInt(lista.getNodo(i+1).getDato().getFecha())){
+            if ((long)strToInt(lista.getNodo(i).getDato().getFecha())> (long) strToInt(lista.getNodo(i+1).getDato().getFecha())){
                 Documentos temp= lista.getNodo(i).getDato();
                 lista.getNodo(i).setDato(lista.getNodo(i+1).getDato());
                 lista.getNodo(i+1).setDato(temp);
