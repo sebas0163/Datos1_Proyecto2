@@ -130,15 +130,15 @@ public class Controller implements Initializable {
     public void ordenarNombre(){
         System.out.println("Se ordenó usando quickSort");
         ejecutar.quickSort();
+        buscar();
     }
     /**
      * Ordena los resultados de las apariciones por tamaño usando RadixSort
      */
     public void ordenarTamaño(){
         System.out.println("Se ordenó usando RadixSort");
-        ejecutar.getBiblioteca().getListaDocumentos().print();
         ejecutar.radixSort();
-        ejecutar.getBiblioteca().getListaDocumentos().print();
+        buscar();
     }
     /**
      * Ordena los resultados de las apariciones por Fecha usando BubbleSort
@@ -146,5 +146,6 @@ public class Controller implements Initializable {
     public void ordenarFecha(){
         System.out.println("Se ordenó usando BubbleSort");
         ejecutar.bubble();
+        buscar();
     }
 }
