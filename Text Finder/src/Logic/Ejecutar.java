@@ -164,7 +164,7 @@ public class Ejecutar {
      */
     private DoubleEndedLinkedList<Documentos> radixSort(DoubleEndedLinkedList<Documentos> list, int n, int exp){ 
         DoubleEndedLinkedList<Documentos> lista=new DoubleEndedLinkedList();
-        lista =filListDoc(list,n);
+        lista =filListDoc(lista,n);
         DoubleEndedLinkedList<Integer> count=new DoubleEndedLinkedList();
         filList(count,10,0);
         
@@ -177,8 +177,8 @@ public class Ejecutar {
         
         for (int i = n-1; i >= 0; i--){
             Documentos dat=list.getNodo(i).getDato();
-            int pos=(count.getNodo((int) ((list.getNodo(i).getDato().getTamano()/exp)%10)).getDato())-1;
-            lista.getNodo(pos).setDato(dat); 
+            int pos=(count.getNodo((int) ((list.getNodo(i).getDato().getTamano()/exp)%10)).getDato());
+            lista.getNodo(pos-1).setDato(dat); 
             count.getNodo((int) (((list.getNodo(i).getDato().getTamano())/exp)%10)).setDato((count.getNodo((int) ((list.getNodo(i).getDato().getTamano())/exp%10)).getDato())-1);
         }   
         
