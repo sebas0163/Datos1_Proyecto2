@@ -532,9 +532,7 @@ public class Ejecutar {
             DoubleEndedLinkedList list = new DoubleEndedLinkedList();
             for (int i = 0; i < listaTXT.len(); i++) {
                 if (listaTXT.getNodo(i).getDato().toString().toUpperCase().contains(frase.toUpperCase())) {
-                    list.add(listaTXT.getNodo(i - 1).getDato().toString() + "\n" +
-                            listaTXT.getNodo(i).getDato().toString() + "\n" +
-                            listaTXT.getNodo(i + 1).getDato().toString());
+                    list.add(listaTXT.getNodo(i).getDato().toString() );
                 }
                 mostrarApariciones(list,resultados,doc,frase);
             }
