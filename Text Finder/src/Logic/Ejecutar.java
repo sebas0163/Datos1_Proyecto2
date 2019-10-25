@@ -522,7 +522,7 @@ public class Ejecutar {
     /**
      * Metodo encargado de realizar la busqueda de una frase en el documento.
      * @param frase frase que se desea buscar.
-     * @return
+     * @param resultados Vbox donde se mostraran los resultados 
      */
     public void buscarFrase(String frase,VBox resultados){
         DoubleEndedLinkedList listadocs= biblioteca.getListaDocumentos();
