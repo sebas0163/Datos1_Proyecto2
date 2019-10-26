@@ -201,22 +201,24 @@ public class Ejecutar {
         DoubleEndedLinkedList<Documentos> list=biblioteca.getListaDocumentos();
         for (int i=0; i<list.len();i++){
             System.out.println(list.getNodo(i).getDato().getNombre());
-            System.out.println((long)strToInt(list.getNodo(i).getDato().getFecha()));}
+            System.out.println(list.getNodo(i).getDato().getFecha());
+            System.out.println(arrefloFecha(list.getNodo(i).getDato().getFecha()));}
         list=bubble(0,list);
         for (int i=0; i<list.len();i++){
             System.out.println(list.getNodo(i).getDato().getNombre());
-            System.out.println((long)strToInt(list.getNodo(i).getDato().getFecha()));}
+            System.out.println(list.getNodo(i).getDato().getFecha());
+            System.out.println(arrefloFecha(list.getNodo(i).getDato().getFecha()));}
         biblioteca.setListaDocumentos(list);
+    }
+    private double arrefloFecha(String a){
+        a=a.replaceAll("[-:apm ]", "");        
+        return Double.parseDouble(a);
     }
     private DoubleEndedLinkedList bubble(int inicial,DoubleEndedLinkedList list){
         DoubleEndedLinkedList<Documentos> lista=list;
         int swaps=0;
         for(int i=inicial;i<lista.len()-1;i++){
-            System.out.println(lista.getNodo(i).getDato().getNombre());
-            System.out.println(lista.getNodo(i).getDato().getFecha());
-            System.out.println(lista.getNodo(i+1).getDato().getNombre());
-            System.out.println(lista.getNodo(i+1).getDato().getFecha());
-            if ((long)strToInt(lista.getNodo(i).getDato().getFecha())> (long) strToInt(lista.getNodo(i+1).getDato().getFecha())){
+            if (arrefloFecha(lista.getNodo(i).getDato().getFecha())>arrefloFecha(lista.getNodo(i+1).getDato().getFecha())){
                 Documentos temp= lista.getNodo(i).getDato();
                 lista.getNodo(i).setDato(lista.getNodo(i+1).getDato());
                 lista.getNodo(i+1).setDato(temp);
@@ -545,7 +547,11 @@ public class Ejecutar {
     }
 
 
-
+    /**
+     * Metodo que busca una frase en los documentos
+     * @param frase String que se desea buscar 
+     * @param resultados Vbox donde se van a mostrar los resultados
+     */
     public void buscarFrase(String frase,VBox resultados){
         DoubleEndedLinkedList listaDocs = biblioteca.getListaDocumentos();
         Nodo temp = listaDocs.getHead();
