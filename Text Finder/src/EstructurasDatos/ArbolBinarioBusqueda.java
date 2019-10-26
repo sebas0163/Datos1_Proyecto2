@@ -10,11 +10,18 @@ public class ArbolBinarioBusqueda<T> {
     public void ArbolBinarioBusqueda(){
         this.raiz=null;
     }
-
+    /**
+     * metodo que indica si el arbol esta vacio 
+     * @return boolean 
+     */
     public boolean esVacio(){
         return(raiz==null);
     }
 
+    /**
+     * metodo que recibe la pabra que se quiere agregar y la acomoda en el arbol
+     * @param dato palabra que se desea agregar
+     */
     public void agregar(String dato){
         Palabra palabra=new Palabra(dato);
         
@@ -48,6 +55,11 @@ public class ArbolBinarioBusqueda<T> {
             }
         }
     }
+    /**
+     * Metodo que recorre el arbol recursivamente para obtener el dato más pequeño 
+     * @param nodo nodo inicial
+     * @return nodo menor 
+     */
     private NodoABB menor(NodoABB<T> nodo){
         NodoABB aux=nodo;
         if(nodo.getNodoI()==null){
@@ -55,6 +67,11 @@ public class ArbolBinarioBusqueda<T> {
         }          
         return menor(nodo.getNodoI());
     }
+    /**
+     * Metodo que recorre el arbol recursivamente para obtener el dato más grande 
+     * @param nodo nodo inicial
+     * @return nodo mayor 
+     */
     private NodoABB mayor(NodoABB<T> nodo){
         NodoABB aux=nodo;
         if(nodo.getNodoD()==null){
@@ -65,9 +82,9 @@ public class ArbolBinarioBusqueda<T> {
 
 
     /**
-     *
-     * @param dato
-     * @return
+     *Metodo que busca una palabra en el arbol
+     * @param dato palabra qwue se desae buscar en el arbol
+     * @return el nodo que contiene la palabra buscada o null si no la encuentra
      */
     public Palabra buscar(String dato){
         Palabra palabra=new Palabra(dato);
