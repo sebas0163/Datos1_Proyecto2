@@ -120,7 +120,7 @@ public class Ejecutar {
      * @param list lista donde se realiza la busqyeda
      * @return el valor maximo encontrado
      */
-    private static long getMax(DoubleEndedLinkedList<Documentos> list) 
+    private long getMax(DoubleEndedLinkedList<Documentos> list) 
     {
         Nodo<Documentos> aux=list.getNodo(0);
         
@@ -212,6 +212,10 @@ public class Ejecutar {
         DoubleEndedLinkedList<Documentos> lista=list;
         int swaps=0;
         for(int i=inicial;i<lista.len()-1;i++){
+            System.out.println(lista.getNodo(i).getDato().getNombre());
+            System.out.println(lista.getNodo(i).getDato().getFecha());
+            System.out.println(lista.getNodo(i+1).getDato().getNombre());
+            System.out.println(lista.getNodo(i+1).getDato().getFecha());
             if ((long)strToInt(lista.getNodo(i).getDato().getFecha())> (long) strToInt(lista.getNodo(i+1).getDato().getFecha())){
                 Documentos temp= lista.getNodo(i).getDato();
                 lista.getNodo(i).setDato(lista.getNodo(i+1).getDato());
@@ -389,6 +393,26 @@ public class Ejecutar {
             cont += 1;
         }
     }
+    private void mostrarApariciones( VBox resultados, Documentos documento,String busc){
+        String [] texto = {busc+"\n",documento.getNombreOrg() +"     ",documento.getFecha()+"      ",String.valueOf(documento.getTamano())};
+        TextFlow flow = new TextFlow();
+        flow.setOnMouseClicked(click);
+        flow.setPrefWidth(1074);
+        Text text1 = new Text(texto[0]);
+        text1.setFill(Color.DARKGREEN);
+        text1.setFont(new Font("Arial",18));
+        flow.getChildren().add(text1);
+        for(int i =1; i< texto.length; i++ ){
+            Text text = new Text(texto[i]);
+            text.setFont(new Font("Arial",18));
+            flow.getChildren().add(text);
+        }
+        Resultado resultado = new Resultado(documento.getRutaTxt(),texto,flow,documento.getNombreOrg(),busc);
+        listaResultado.add(resultado);
+        resultados.getChildren().add(flow);
+        
+        
+    }
     private void mostrarApariciones(DoubleEndedLinkedList texto,VBox resultados,Documentos documento,String busc){
         Nodo temp = texto.getHead();
         while(temp != null){
@@ -519,26 +543,48 @@ public class Ejecutar {
         }
         doc.setArbolPalabras(arbol);
     }
-    /**
-     * Metodo encargado de realizar la busqueda de una frase en el documento.
-     * @param frase frase que se desea buscar.
-     * @param resultados Vbox donde se mostraran los resultados 
-     */
+
+
+
     public void buscarFrase(String frase,VBox resultados){
-        DoubleEndedLinkedList listadocs= biblioteca.getListaDocumentos();
-        for(int j=0; j<listadocs.len();j++) {
-            Documentos doc = (Documentos)listadocs.getNodo(j).getDato();
-            DoubleEndedLinkedList listaTXT = manejoArchivos.read(doc.getRutaTxt());
-            DoubleEndedLinkedList list = new DoubleEndedLinkedList();
-            for (int i = 0; i < listaTXT.len(); i++) {
-                if (listaTXT.getNodo(i).getDato().toString().toUpperCase().contains(frase.toUpperCase())) {
-                    list.add(listaTXT.getNodo(i).getDato().toString() );
-                }
-                mostrarApariciones(list,resultados,doc,frase);
+        DoubleEndedLinkedList listaDocs = biblioteca.getListaDocumentos();
+        Nodo temp = listaDocs.getHead();
+        String[] busc=frase.split(" ");
+        while(temp != null) {
+            Documentos documento = (Documentos) temp.getDato();
+            ArbolBinarioBusqueda arbol = documento.getArbolPalabras();
+            boolean contFrase=true;
+            if (arbol.buscar(busc[0])!= null && arbol.buscar(busc[busc.length-1])!=null){
+                mostrarApariciones(resultados, documento, frase);
+                temp=temp.getNext();
             }
+            else
+            temp=temp.getNext();
+//            for(int i=0;i<busc.length;i++){
+//                System.out.println(busc[i]);
+//                if (arbol.buscar(busc[i])!= null){
+//                    continue;
+//                }else {
+//                    System.out.println("La frase no está en el documento: ");
+//                    System.out.println(documento.getNombre());
+//                    temp = temp.getNext();
+//                    contFrase=false;
+//                    break;
+//                }
+//            } 
+//            System.out.println(contFrase);
+            //mostrarApariciones(resultados, documento, frase);
+            
+//            if(contFrase){
+//                mostrarApariciones(resultados, documento, buscado);
+//                temp=temp.getNext();
+//            }
+//            else{
+//                temp=temp.getNext();            
+//            }           
+        
         }
     }
-
     /**
      * Metodo encargado de controlar los eventos del mouse.
      */
