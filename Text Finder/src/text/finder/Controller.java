@@ -54,7 +54,7 @@ public class Controller implements Initializable {
         resultados.getChildren().clear();
         if(txtIn.getText().contains(" ")){
             String frase = txtIn.getText();
-            ejecutar.buscarFrase(frase,resultados);
+            //ejecutar.buscarFrase(frase,resultados);
         }else {
             String palabra = txtIn.getText();
             ejecutar.buscarPalabra(palabra, resultados,true);
@@ -66,6 +66,9 @@ public class Controller implements Initializable {
         while(tokenizer.hasMoreElements()){
             ejecutar.buscarPalabra(tokenizer.nextToken(),resultados,false);
         }
+        ejecutar.buscarFrase(txtIn.getText(),resultados);
+        
+        
     }
     /**
      * Metodo encargado de indizar los documentos .docx
@@ -130,15 +133,15 @@ public class Controller implements Initializable {
     public void ordenarNombre(){
         System.out.println("Se ordenó usando quickSort");
         ejecutar.quickSort();
+        buscar();
     }
     /**
      * Ordena los resultados de las apariciones por tamaño usando RadixSort
      */
     public void ordenarTamaño(){
         System.out.println("Se ordenó usando RadixSort");
-        ejecutar.getBiblioteca().getListaDocumentos().print();
         ejecutar.radixSort();
-        ejecutar.getBiblioteca().getListaDocumentos().print();
+        buscar();
     }
     /**
      * Ordena los resultados de las apariciones por Fecha usando BubbleSort
@@ -146,5 +149,6 @@ public class Controller implements Initializable {
     public void ordenarFecha(){
         System.out.println("Se ordenó usando BubbleSort");
         ejecutar.bubble();
+        buscar();
     }
 }

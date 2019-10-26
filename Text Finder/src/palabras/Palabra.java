@@ -24,7 +24,11 @@ public class Palabra {
         
     }    
     
-
+    /**
+     * Metodo que toma un string y le asigna un valor segun los valores de sus caracteres en ascii
+     * @param a String de la palabra que se va pasar a un numero
+     * @return double del valor de la palabra 
+     */
     public double strToInt(String a){
         a=a.toUpperCase();
         String palabra="";
@@ -46,6 +50,9 @@ public class Palabra {
     public double getValor() {
         return valor;
     }
+    /**
+     * Metodo que aumenta en 1 la variable de apariciones de la palabra 
+     */
     public void addApariciones(){
         this.apariciones++;
     }
