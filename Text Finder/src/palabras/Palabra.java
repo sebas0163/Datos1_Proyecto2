@@ -49,4 +49,5 @@ public class Palabra {
     public void addApariciones(){
         this.apariciones++;
     }
+
 }

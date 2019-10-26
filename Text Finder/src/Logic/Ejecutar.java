@@ -278,7 +278,7 @@ public class Ejecutar {
     public void addPdf(String url, String nombre, TreeItem item,String rutaBib,MenuItem opcion1,MenuItem opcion2,MenuButton modificar,MenuButton eliminar){
         Documentos doc = manejoArchivos.indizarPdf(url,nombre,rutaBib);
         opcion2.setOnAction(eliminarAct);
-        opcion2.setOnAction(modificarDoc);
+        opcion1.setOnAction(modificarDoc);
         doc.setAgregar(opcion1);
         doc.setEliminar(opcion2);
         doc.setItem(item);

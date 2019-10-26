@@ -25,18 +25,7 @@ public class Biblioteca {
     public void agregarDocumento(Documentos documento){
         listaDocumentos.add(documento);
     }
-
-    /**
-     * Metodo encargado de eliminar el documento del programa.
-     * @param documento documento a eliminar.
-     */
-    public void eliminarDocumento(Documentos documento){
-        int pos = listaDocumentos.buscarPos(documento);
-        Documentos doc = listaDocumentos.getInfo(pos);
-        File file = new File(doc.getRutaTxt());
-        file.delete();
-        listaDocumentos.remove(pos);
-    }
+    
 
     public DoubleEndedLinkedList<Documentos> getListaDocumentos() {
         return listaDocumentos;

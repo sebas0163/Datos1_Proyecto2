@@ -42,21 +42,21 @@
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: #def5d7;">
                            <children>
-                              <TextField fx:id="txtIn" layoutX="24.0" layoutY="18.0" prefHeight="26.0" prefWidth="654.0" promptText="Buscar palabra" />
-                              <Button fx:id="btnBuscar" layoutX="719.0" layoutY="18.0" mnemonicParsing="false" onAction="#buscar" text="Buscar" />
-                              <MenuButton layoutX="959.0" layoutY="18.0" mnemonicParsing="false" text="Ordenar">
+                              <TextField fx:id="txtIn" layoutX="24.0" layoutY="18.0" prefHeight="26.0" prefWidth="704.0" promptText="Buscar palabra" />
+                              <Button fx:id="btnBuscar" layoutX="752.0" layoutY="18.0" mnemonicParsing="false" onAction="#buscar" text="Buscar" />
+                              <MenuButton layoutX="961.0" layoutY="18.0" mnemonicParsing="false" text="Ordenar">
                                 <items>
                                   <MenuItem mnemonicParsing="false" onAction="#ordenarFecha" text="Fecha" />
                                   <MenuItem mnemonicParsing="false" onAction="#ordenarNombre" text="Nombre" />
                                   <MenuItem mnemonicParsing="false" onAction="#ordenarTamaño" text="Tamaño" />
                                 </items>
                               </MenuButton>
-                              <Button layoutX="803.0" layoutY="18.0" mnemonicParsing="false" onAction="#buscarporPalabras" text="Buscar por palabra" />
+                              <Button layoutX="824.0" layoutY="18.0" mnemonicParsing="false" onAction="#buscarporPalabras" text="Buscar por palabra" />
                            </children>
                         </AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                            <children>
-                              <ScrollPane prefHeight="713.0" prefWidth="1076.0">
+                              <ScrollPane fx:id="scrollp" prefHeight="713.0" prefWidth="1076.0">
                                 <content>
                                   <VBox fx:id="resultados" minHeight="0.0" minWidth="0.0" prefHeight="713.0" prefWidth="1076.0" style="-fx-background-color: #fffbc9;" />
                                 </content>

@@ -35,6 +35,8 @@ public class Controller implements Initializable {
     private MenuButton btnEliminar;
     @FXML
     private VBox resultados;
+    @FXML
+    private ScrollPane scrollp;
     private Ejecutar ejecutar;
     private String path;
 
