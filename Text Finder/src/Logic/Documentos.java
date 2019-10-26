@@ -21,6 +21,7 @@ public class Documentos {
     private TreeItem item;
     private MenuItem eliminar;
     private MenuItem agregar;
+    private int lineas;
 
 
     /**
@@ -32,7 +33,7 @@ public class Documentos {
      * @param tamano peso del documento
      * @param fecha fecha de cracion del documento.
      */
-    public Documentos(String ruta1,String ruta2,ArbolBinarioBusqueda arbol,String nombre,long tamano,String fecha,String nombreOrg){
+    public Documentos(String ruta1,String ruta2,ArbolBinarioBusqueda arbol,String nombre,long tamano,String fecha,String nombreOrg,int lineas){
         this.fecha = fecha;
         this.nombreOrg = nombreOrg;
         this.nombre = nombre;
@@ -40,6 +41,7 @@ public class Documentos {
         this.ruta = ruta1;
         this.rutaTxt = ruta2;
         this.arbolPalabras = arbol;
+        this.lineas = lineas;
     }
 
     public String getRuta() {
@@ -97,5 +99,9 @@ public class Documentos {
 
     public void setAgregar(MenuItem agregar) {
         this.agregar = agregar;
+    }
+
+    public int getLineas() {
+        return lineas;
     }
 }

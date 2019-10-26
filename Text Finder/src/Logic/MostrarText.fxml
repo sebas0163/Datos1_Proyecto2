@@ -8,7 +8,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="474.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="text.finder.MostrarController">
    <children>
-      <ScrollPane layoutX="43.0" layoutY="56.0" prefHeight="368.0" prefWidth="576.0">
+      <ScrollPane fx:id="scroll" layoutX="43.0" layoutY="56.0" prefHeight="368.0" prefWidth="576.0">
          <content>
             <TextFlow fx:id="texto" prefHeight="364.0" prefWidth="574.0" />
          </content>

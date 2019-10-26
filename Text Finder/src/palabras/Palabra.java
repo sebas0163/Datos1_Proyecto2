@@ -16,11 +16,13 @@ public class Palabra {
     private String palabra;
     private double valor;
     private int apariciones;
+    private DoubleEndedLinkedList<Integer> lineas;
 
     public Palabra(String palabra){
         this.palabra=palabra;
         this.valor= strToInt(palabra);
         this.apariciones=1;
+        this.lineas = new DoubleEndedLinkedList<>();
         
     }    
     
@@ -40,6 +42,13 @@ public class Palabra {
         return Double.parseDouble(palabra);
     }
 
+    public DoubleEndedLinkedList<Integer> getLineas() {
+        return lineas;
+    }
+    public void setLinea(int linea){
+        this.lineas.add(linea);
+    }
+
     public int getApariciones() {
         return apariciones;
     }
@@ -56,4 +65,5 @@ public class Palabra {
     public void addApariciones(){
         this.apariciones++;
     }
+
 }

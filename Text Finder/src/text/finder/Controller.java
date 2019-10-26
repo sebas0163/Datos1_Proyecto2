@@ -35,6 +35,8 @@ public class Controller implements Initializable {
     private MenuButton btnEliminar;
     @FXML
     private VBox resultados;
+    @FXML
+    private ScrollPane scrollp;
     private Ejecutar ejecutar;
     private String path;
 
@@ -54,7 +56,7 @@ public class Controller implements Initializable {
         resultados.getChildren().clear();
         if(txtIn.getText().contains(" ")){
             String frase = txtIn.getText();
-            //ejecutar.buscarFrase(frase,resultados);
+            ejecutar.buscarFrase(frase,resultados);
         }else {
             String palabra = txtIn.getText();
             ejecutar.buscarPalabra(palabra, resultados,true);
