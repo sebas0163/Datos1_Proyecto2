@@ -5,6 +5,7 @@
  */
 package text.finder;
 
+import java.awt.*;
 import java.io.BufferedReader;
 
 import EstructurasDatos.DoubleEndedLinkedList;
@@ -13,10 +14,13 @@ import java.io.FileReader;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import Logic.Resultado;
 import Logic.Singleton;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -30,16 +34,20 @@ public class MostrarController implements Initializable {
 
     private String path;
     private Ejecutar ejecutar;
+    private Resultado result;
     @FXML
     public TextFlow texto;
+    public ScrollPane scroll;
     @FXML
     public Label titulo;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.ejecutar = Singleton.getInstancia(null,null,null);
         this.path = ejecutar.getPath();
+        this.result = ejecutar.getResultado();
         titulo.setText(ejecutar.buscarNombre(path));
         setText();
+        posicionarScroll();
     }
 
     /**
@@ -69,6 +77,16 @@ public class MostrarController implements Initializable {
 
         }catch (Exception e){
 
+        }
+    }
+    private void posicionarScroll(){
+        double posscroll = (double) (result.getLinea())/(double) (result.getLineasDoc());
+        if(result.getLinea()>11){
+            System.out.println(posscroll);
+            texto.heightProperty().addListener(observable -> scroll.setVvalue(posscroll));
+            scroll.setVvalue(posscroll);
+        }else{
+            System.out.println("estoy donde tengo que estar");
         }
     }
     private DoubleEndedLinkedList modificarTexto(String palabra, String lineaTexto){

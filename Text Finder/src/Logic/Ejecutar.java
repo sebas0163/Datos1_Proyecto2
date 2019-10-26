@@ -34,6 +34,7 @@ public class Ejecutar {
     private MenuButton eliminar;
     private Biblioteca biblioteca;
     private String path;
+    private Resultado resultado;
     private String buscado;
     private DoubleEndedLinkedList<Resultado> listaResultado;
     private TreeItem raiz;
@@ -178,7 +179,6 @@ public class Ejecutar {
   
     /**
      * Funcion que llama a la funcion principal del radixsort
-     * @param list lista que se desea ordenar
      * @return lista ordenada 
      */
     public void radixSort(){ 
@@ -296,7 +296,7 @@ public class Ejecutar {
         File file = new File(url);
         File file1 = new File(rutaBib,file.getName());
         file1.mkdir();
-        Documentos doc = new Documentos(url,file1.getPath(),null,file.getName(),file.length(),null,file.getName());
+        Documentos doc = new Documentos(url,file1.getPath(),null,file.getName(),file.length(),null,file.getName(),0);
         doc.setEliminar(opcion2);
         doc.setItem(item);
         biblioteca.getListaDocumentos().add(doc);
@@ -356,7 +356,9 @@ public class Ejecutar {
     private void mostrarApariciones(Palabra palabra, VBox resultados, Documentos documento,String busc){
         String [] texto = {palabra.getPalabra()+"\n",documento.getNombreOrg() +"     ",documento.getFecha()+"      ",String.valueOf(documento.getTamano())};
         int apariciones = palabra.getApariciones();
+        DoubleEndedLinkedList lineas = palabra.getLineas();
         int cont = 1;
+        int pos = 0;
         while(cont <= apariciones){
             TextFlow flow = new TextFlow();
             flow.setOnMouseClicked(click);
@@ -370,11 +372,27 @@ public class Ejecutar {
                 text.setFont(new Font("Arial",18));
                 flow.getChildren().add(text);
             }
-            Resultado resultado = new Resultado(documento.getRutaTxt(),texto,flow,documento.getNombreOrg(),busc);
+            Resultado resultado = new Resultado(documento.getRutaTxt(),texto,flow,documento.getNombreOrg(),busc,(int)lineas.getNodo(pos).getDato(),documento.getLineas());
             listaResultado.add(resultado);
             resultados.getChildren().add(flow);
             cont += 1;
+            //pos++;
         }
+    }
+
+    /**
+     * Metodo encargado de buscar el resultado seleccionado
+     * @param flow texflow
+     * @return resultado
+     */
+    private Resultado buscaResult(TextFlow flow){
+        for (int i = 0;i<listaResultado.len();i++){
+            Resultado r = listaResultado.getNodo(i).getDato();
+            if (r.getFlow().equals(flow)){
+                return r;
+            }
+        }
+        return null;
     }
     private void mostrarApariciones(DoubleEndedLinkedList texto,VBox resultados,Documentos documento,String busc){
         Nodo temp = texto.getHead();
@@ -392,7 +410,7 @@ public class Ejecutar {
                 text2.setFont(new Font("Arial",18));
                 flow.getChildren().add(text2);
             }
-            Resultado resultado = new Resultado(documento.getRutaTxt(),textFinal,flow,documento.getNombreOrg(),busc);
+            Resultado resultado = new Resultado(documento.getRutaTxt(),textFinal,flow,documento.getNombreOrg(),busc,0,documento.getLineas());
             listaResultado.add(resultado);
             resultados.getChildren().add(flow);
         }
@@ -536,6 +554,7 @@ public class Ejecutar {
         public void handle(MouseEvent event) {
             if (event.getButton().equals(MouseButton.PRIMARY)){
                 path= buscarRuta((TextFlow) event.getSource());
+                resultado = buscaResult((TextFlow)event.getSource());
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader();
                     fxmlLoader.setLocation(getClass().getResource("MostrarText.fxml"));
@@ -622,5 +641,9 @@ public class Ejecutar {
 
     public String getBuscado() {
         return buscado;
+    }
+
+    public Resultado getResultado() {
+        return resultado;
     }
 }

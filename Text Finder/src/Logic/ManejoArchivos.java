@@ -7,6 +7,8 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import palabras.Palabra;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -41,8 +43,9 @@ public class ManejoArchivos {
             File file2 = new File(url);
             String fecha = obtenerFecha(file2);
             escribirTxt(nuevoDoc,extractor.getText());
-            leerArchivo(nuevoDoc.getPath());
-            Documentos documento = new Documentos(url,nuevoDoc.getPath(),arbolDoc(),nuevoDoc.getName(),file2.length(),fecha,nombre);
+            int lineas = leerArchivo(nuevoDoc.getPath());
+            System.out.println(lineas);
+            Documentos documento = new Documentos(url,nuevoDoc.getPath(),arbolDoc(nuevoDoc.getPath()),nuevoDoc.getName(),file2.length(),fecha,nombre,lineas);
             palabras.reset();
             return documento;
         }catch (Exception e){
@@ -66,9 +69,8 @@ public class ManejoArchivos {
             File file2 = new File(url);
             String fecha = obtenerFecha(file2);
             escribirTxt(file,stripper.getText(doc));
-            leerArchivo(file.getPath());
-            System.out.println(file.length());
-            Documentos documento = new Documentos(url,file.getPath(),arbolDoc(),file.getName(),file2.length(),fecha,nombre);
+            int lineas = leerArchivo(file.getPath());
+            Documentos documento = new Documentos(url,file.getPath(),arbolDoc(file.getPath()),file.getName(),file2.length(),fecha,nombre,lineas);
             palabras.reset();
             doc.close();
             return documento;
@@ -92,8 +94,8 @@ public class ManejoArchivos {
             File file2 = new File(url);
             String fecha = obtenerFecha(file2);
             leerArchivo(url,nuevoDoc);
-            leerArchivo(nuevoDoc.getPath());
-            Documentos documento = new Documentos(url,nuevoDoc.getPath(),arbolDoc(),nuevoDoc.getName(),file2.length(),fecha,nombre);
+            int lineas = leerArchivo(nuevoDoc.getPath());
+            Documentos documento = new Documentos(url,nuevoDoc.getPath(),arbolDoc(nuevoDoc.getPath()),nuevoDoc.getName(),file2.length(),fecha,nombre,lineas);
             palabras.reset();
             return documento;
         }catch (Exception e){
@@ -142,11 +144,13 @@ public class ManejoArchivos {
      * Método encargado de leer el archivo linea por linea y mandar cada linea a un separador de palabras.
      * @param direccion dirección de en que lugar se encuentra el archivo que se desea leer.
      */
-    public void leerArchivo(String direccion){
+    public int leerArchivo(String direccion){
+        int lineasTotales = 0;
         try{
             BufferedReader bf = new BufferedReader(new FileReader(direccion));
             String lineaTexto;
             while((lineaTexto = bf.readLine()) != null){
+                lineasTotales++;
                 separarPalabras(lineaTexto);
             }
             bf.close();
@@ -154,6 +158,7 @@ public class ManejoArchivos {
         }catch (Exception e){
 
         }
+        return lineasTotales;
     }
     /**
      * Método encargado de leer el archivo linea por linea y mandar cada linea a un separador de palabras.
@@ -191,14 +196,71 @@ public class ManejoArchivos {
      * Método que agrega las palabras del documento al arbol.
      * @return
      */
-    private ArbolBinarioBusqueda arbolDoc(){
+    private ArbolBinarioBusqueda arbolDoc(String rutaTxt){
         ArbolBinarioBusqueda arbol = new ArbolBinarioBusqueda<>();
         Nodo temp = palabras.getHead();
         while (temp != null){
             arbol.agregar((String) temp.getDato());
             temp = temp.getNext();
         }
+        convertirLista(arbol,rutaTxt);
         return arbol;
+    }
+
+    /**
+     * Metodo encargado de tranformar un arbol en una lista.
+     * @param arbol arbol de palabras
+     */
+    private void convertirLista(ArbolBinarioBusqueda arbol, String rutaTxt){
+        DoubleEndedLinkedList<Palabra> lista = new DoubleEndedLinkedList<>();
+        Nodo temp = palabras.getHead();
+        while (temp != null){
+            if (lista.in(arbol.buscar((String) temp.getDato()))){
+                temp = temp.getNext();
+            }else{
+                lista.add(arbol.buscar((String) temp.getDato()));
+                temp = temp.getNext();
+            }
+        }
+        setLineas(lista,rutaTxt);
+    }
+
+    /**
+     * Metodo encargado de llamar a la funcion setlineas aux por cada objeto en la lista.
+     * @param lista lista con las instancias de palabra
+     * @param rutaTxt ruta del archivo
+     */
+    private void setLineas(DoubleEndedLinkedList lista, String rutaTxt){
+        Nodo temp = lista.getHead();
+        while (temp != null){
+            Palabra palabra = (Palabra) temp.getDato();
+            setLineasAux(palabra,rutaTxt);
+            temp = temp.getNext();
+        }
+    }
+
+    /**
+     * Metodo encargado de agragar las lineas de apariciones de cada palabra.
+     * @param palabra instancias que contiene los datos de la palabra.
+     * @param rutaTxt ruta del archivo.
+     */
+    private void setLineasAux(Palabra palabra,String rutaTxt){
+        try {
+            int cont = 1;
+            BufferedReader bf = new BufferedReader(new FileReader(rutaTxt));
+            String lineaText = "";
+            while ((lineaText = bf.readLine())!= null){
+                if (lineaText.contains(palabra.getPalabra())){
+                    palabra.setLinea(cont);
+                }
+                cont++;
+            }
+            bf.close();
+
+
+        }catch (Exception e){
+            System.out.println(e);
+        }
     }
     /**
      * Metodo para abrir y un archivo txt y converirlo a una lista que contiene las lineas del archivo
