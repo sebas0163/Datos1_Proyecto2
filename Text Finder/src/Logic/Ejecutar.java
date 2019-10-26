@@ -51,6 +51,11 @@ public class Ejecutar {
         this.raiz = raiz;
         this.path = "";
     }
+    /**
+     * Metodo que toma un string y le asigna un valor segun los valores de sus caracteres en ascii
+     * @param a String de la palabra que se va pasar a un numero
+     * @return double del valor de la palabra 
+     */
     private double strToInt(String a){
         a=a.toUpperCase();
         String palabra="";
@@ -146,6 +151,12 @@ public class Ejecutar {
             cont++;
         }        
     }
+    /**
+     * Metodo auxiliar del radixSort el cual llena una lista hasta que sea del tamaño solicitado 
+     * @param list lista a la que se le desea aumentar el tamaño 
+     * @param lenn largo final de la lista 
+     * @return lista de documentos que tienen almacenado null
+     */
     private DoubleEndedLinkedList filListDoc(DoubleEndedLinkedList list,int lenn){
         int cont=0;
         while(cont<lenn){
@@ -196,24 +207,29 @@ public class Ejecutar {
         biblioteca.setListaDocumentos(list);
         
     } 
-    
+    /**
+     * metodo que invoca al bubble sort
+     */
     public void bubble(){
         DoubleEndedLinkedList<Documentos> list=biblioteca.getListaDocumentos();
-        for (int i=0; i<list.len();i++){
-            System.out.println(list.getNodo(i).getDato().getNombre());
-            System.out.println(list.getNodo(i).getDato().getFecha());
-            System.out.println(arrefloFecha(list.getNodo(i).getDato().getFecha()));}
-        list=bubble(0,list);
-        for (int i=0; i<list.len();i++){
-            System.out.println(list.getNodo(i).getDato().getNombre());
-            System.out.println(list.getNodo(i).getDato().getFecha());
-            System.out.println(arrefloFecha(list.getNodo(i).getDato().getFecha()));}
+        list=bubble(0,list);        
         biblioteca.setListaDocumentos(list);
     }
+    /**
+     * Metodo que recibe una fecha y la convierte a un solo numero
+     * @param a String que contiene la fecha
+     * @return int de la fecha sin los caracteres 
+     */
     private double arrefloFecha(String a){
         a=a.replaceAll("[-:apm ]", "");        
         return Double.parseDouble(a);
     }
+    /**
+     * Metodo principal del bubble sort que ordena una lista de documentos segun su fecha 
+     * @param inicial
+     * @param list
+     * @return 
+     */
     private DoubleEndedLinkedList bubble(int inicial,DoubleEndedLinkedList list){
         DoubleEndedLinkedList<Documentos> lista=list;
         int swaps=0;
@@ -566,29 +582,7 @@ public class Ejecutar {
             }
             else
             temp=temp.getNext();
-//            for(int i=0;i<busc.length;i++){
-//                System.out.println(busc[i]);
-//                if (arbol.buscar(busc[i])!= null){
-//                    continue;
-//                }else {
-//                    System.out.println("La frase no está en el documento: ");
-//                    System.out.println(documento.getNombre());
-//                    temp = temp.getNext();
-//                    contFrase=false;
-//                    break;
-//                }
-//            } 
-//            System.out.println(contFrase);
-            //mostrarApariciones(resultados, documento, frase);
-            
-//            if(contFrase){
-//                mostrarApariciones(resultados, documento, buscado);
-//                temp=temp.getNext();
-//            }
-//            else{
-//                temp=temp.getNext();            
-//            }           
-        
+
         }
     }
     /**
